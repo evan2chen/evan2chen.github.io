@@ -1,0 +1,467 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-26T00:00:00Z",
+  "title": "Design System: Evan Chen",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Cool Plotting White",
+        "canonical": "#f7f8fa",
+        "dark": "#11152a"
+      },
+      "plate": {
+        "role": "neutral",
+        "displayName": "Plate White",
+        "canonical": "#ffffff",
+        "dark": "#171c33"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Blue-Black Ink",
+        "canonical": "#151a2e",
+        "dark": "#e9ecf3"
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Slate Gray",
+        "canonical": "#4d566b",
+        "dark": "#a7b0c4"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline Gray",
+        "canonical": "#cfd4de",
+        "dark": "#2e3554"
+      },
+      "r1": {
+        "role": "primary",
+        "displayName": "Magma 1 - Pale Straw",
+        "canonical": "#fcefb4",
+        "dark": "#3b0f70",
+        "tonalRamp": [
+          "#150d34",
+          "#3b0f70",
+          "#8c2981",
+          "#de4968",
+          "#fe9f6d",
+          "#fcd38f",
+          "#fcefb4",
+          "#fcfdbf"
+        ]
+      },
+      "r2": {
+        "role": "primary",
+        "displayName": "Magma 2 - Apricot",
+        "canonical": "#fe9f6d",
+        "dark": "#8c2981",
+        "tonalRamp": [
+          "#150d34",
+          "#3b0f70",
+          "#8c2981",
+          "#de4968",
+          "#fe9f6d",
+          "#fcd38f",
+          "#fcefb4",
+          "#fcfdbf"
+        ]
+      },
+      "r3": {
+        "role": "primary",
+        "displayName": "Magma 3 - Rose",
+        "canonical": "#de4968",
+        "dark": "#de4968",
+        "tonalRamp": [
+          "#150d34",
+          "#3b0f70",
+          "#8c2981",
+          "#de4968",
+          "#fe9f6d",
+          "#fcd38f",
+          "#fcefb4",
+          "#fcfdbf"
+        ]
+      },
+      "r4": {
+        "role": "primary",
+        "displayName": "Magma 4 - Plum",
+        "canonical": "#8c2981",
+        "dark": "#fe9f6d",
+        "tonalRamp": [
+          "#150d34",
+          "#3b0f70",
+          "#8c2981",
+          "#de4968",
+          "#fe9f6d",
+          "#fcd38f",
+          "#fcefb4",
+          "#fcfdbf"
+        ]
+      },
+      "r5": {
+        "role": "primary",
+        "displayName": "Magma 5 - Deep Violet",
+        "canonical": "#3b0f70",
+        "dark": "#fcd38f",
+        "tonalRamp": [
+          "#150d34",
+          "#3b0f70",
+          "#8c2981",
+          "#de4968",
+          "#fe9f6d",
+          "#fcd38f",
+          "#fcefb4",
+          "#fcfdbf"
+        ]
+      },
+      "r6": {
+        "role": "primary",
+        "displayName": "Magma 6 - Midnight Violet",
+        "canonical": "#150d34",
+        "dark": "#fcfdbf",
+        "tonalRamp": [
+          "#150d34",
+          "#3b0f70",
+          "#8c2981",
+          "#de4968",
+          "#fe9f6d",
+          "#fcd38f",
+          "#fcefb4",
+          "#fcfdbf"
+        ]
+      },
+      "hot": {
+        "role": "primary",
+        "displayName": "Hot - Rose Signal",
+        "canonical": "#de4968",
+        "dark": "#fcd38f"
+      },
+      "mark": {
+        "role": "primary",
+        "displayName": "Mark - Apricot",
+        "canonical": "#fe9f6d",
+        "dark": "#fe9f6d"
+      },
+      "on-mark": {
+        "role": "primary",
+        "displayName": "On-Mark Ink",
+        "canonical": "#151a2e",
+        "dark": "#151a2e"
+      },
+      "quiet": {
+        "role": "secondary",
+        "displayName": "Lavender Mist",
+        "canonical": "#e3dbee",
+        "dark": "#4b2a7a"
+      },
+      "quiet-2": {
+        "role": "secondary",
+        "displayName": "Heather",
+        "canonical": "#d7c3e3",
+        "dark": "#8c2981"
+      },
+      "quiet-line": {
+        "role": "secondary",
+        "displayName": "Dusk Violet Line",
+        "canonical": "#6e5a8f",
+        "dark": "#8c6cb8"
+      },
+      "draft": {
+        "role": "tertiary",
+        "displayName": "Draft Straw",
+        "canonical": "#fcefb4",
+        "dark": "#4a2a1f"
+      },
+      "paper-dark": {
+        "role": "neutral",
+        "displayName": "Cool Plotting White (dark)",
+        "canonical": "#11152a"
+      },
+      "plate-dark": {
+        "role": "neutral",
+        "displayName": "Plate White (dark)",
+        "canonical": "#171c33"
+      },
+      "ink-dark": {
+        "role": "neutral",
+        "displayName": "Blue-Black Ink (dark)",
+        "canonical": "#e9ecf3"
+      },
+      "ink-2-dark": {
+        "role": "neutral",
+        "displayName": "Slate Gray (dark)",
+        "canonical": "#a7b0c4"
+      },
+      "rule-dark": {
+        "role": "neutral",
+        "displayName": "Hairline Gray (dark)",
+        "canonical": "#2e3554"
+      },
+      "r1-dark": {
+        "role": "primary",
+        "displayName": "Magma 1 - Pale Straw (dark)",
+        "canonical": "#3b0f70"
+      },
+      "r2-dark": {
+        "role": "primary",
+        "displayName": "Magma 2 - Apricot (dark)",
+        "canonical": "#8c2981"
+      },
+      "r3-dark": {
+        "role": "primary",
+        "displayName": "Magma 3 - Rose (dark)",
+        "canonical": "#de4968"
+      },
+      "r4-dark": {
+        "role": "primary",
+        "displayName": "Magma 4 - Plum (dark)",
+        "canonical": "#fe9f6d"
+      },
+      "r5-dark": {
+        "role": "primary",
+        "displayName": "Magma 5 - Deep Violet (dark)",
+        "canonical": "#fcd38f"
+      },
+      "r6-dark": {
+        "role": "primary",
+        "displayName": "Magma 6 - Midnight Violet (dark)",
+        "canonical": "#fcfdbf"
+      },
+      "hot-dark": {
+        "role": "primary",
+        "displayName": "Hot - Rose Signal (dark)",
+        "canonical": "#fcd38f"
+      },
+      "mark-dark": {
+        "role": "primary",
+        "displayName": "Mark - Apricot (dark)",
+        "canonical": "#fe9f6d"
+      },
+      "on-mark-dark": {
+        "role": "primary",
+        "displayName": "On-Mark Ink (dark)",
+        "canonical": "#151a2e"
+      },
+      "quiet-dark": {
+        "role": "secondary",
+        "displayName": "Lavender Mist (dark)",
+        "canonical": "#4b2a7a"
+      },
+      "quiet-2-dark": {
+        "role": "secondary",
+        "displayName": "Heather (dark)",
+        "canonical": "#8c2981"
+      },
+      "quiet-line-dark": {
+        "role": "secondary",
+        "displayName": "Dusk Violet Line (dark)",
+        "canonical": "#8c6cb8"
+      },
+      "draft-dark": {
+        "role": "tertiary",
+        "displayName": "Draft Straw (dark)",
+        "canonical": "#4a2a1f"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name only, two lines."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles after a 1.5px ink rule."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Organizations, paper title, list project names."
+      },
+      "figure-number": {
+        "displayName": "Figure Number",
+        "purpose": "Bold Fig. n / Table n opening each caption."
+      },
+      "statement": {
+        "displayName": "Statement",
+        "purpose": "One-sentence intro."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose and result bullets, max 66ch."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Figure captions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Metadata, status, stacks, table captions, readouts."
+      },
+      "nav": {
+        "displayName": "Nav",
+        "purpose": "Section links in the top bar."
+      },
+      "axis": {
+        "displayName": "Axis",
+        "purpose": "Tick values and key ranges; 9.6px inside SVG plates."
+      }
+    },
+    "shadows": [
+      {
+        "name": "draft-halo",
+        "value": "0 0 0 0.15em var(--draft)",
+        "purpose": "Zero-offset spread that pads the draft highlight; not elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "plate-hot",
+        "value": "0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Mark fill and emphasis line transition to Hot on plate hover or focus-within; removed under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "multiples-2up",
+        "value": "1100px"
+      },
+      {
+        "name": "stack",
+        "value": "900px"
+      },
+      {
+        "name": "single",
+        "value": "560px"
+      }
+    ],
+    "colorScheme": "Dark tokens apply under prefers-color-scheme: dark; print sets paper and plate to #fff and hides no-print chrome.",
+    "focus": "2px solid var(--hot) outline at 3px offset; 2px offset on the Fig. 1 canvas.",
+    "selection": "Background var(--r1), text var(--ink).",
+    "links": "Inherit color, 1px underline at 0.2em offset; hover thickens to 2px in var(--hot)."
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid ink resume button; one in the first viewport and one in the footer.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Resume (PDF)</a>",
+      "css": ".ds-btn-primary{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;display:inline-block;background:var(--ink);color:var(--paper);font:700 16px var(--sans);text-decoration:none;padding:12px 18px;border-radius:2px}.ds-btn-primary:hover{background:var(--r5)}.ds-btn-primary:focus-visible{outline:2px solid var(--hot);outline-offset:3px}"
+    },
+    {
+      "name": "Toggle Group",
+      "kind": "button",
+      "refersTo": "toggle",
+      "description": "Adjoining hairline mode toggles; pressed is solid ink.",
+      "html": "<div class=\"ds-toggles\"><button class=\"ds-toggle\" aria-pressed=\"true\">Draw</button><button class=\"ds-toggle\" aria-pressed=\"false\">Query</button></div>",
+      "css": ".ds-toggles{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;display:flex}.ds-toggle{font:600 14px/1 var(--sans);color:var(--ink);background:transparent;border:1px solid var(--rule);padding:8px 14px;min-height:36px;cursor:pointer}.ds-toggle+.ds-toggle{border-left:0}.ds-toggle[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.ds-toggle:hover:not([aria-pressed=true]){border-color:var(--ink-2)}.ds-toggle:focus-visible{outline:2px solid var(--hot);outline-offset:3px}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Top bar: site label left, Archivo section links right with a hot underline on hover.",
+      "html": "<header class=\"ds-top\"><span class=\"ds-label\">evan2chen.github.io</span><nav class=\"ds-nav\"><a href=\"#\">Work</a><a href=\"#\">Experience</a><a href=\"#\">Research</a><a href=\"#\">About</a></nav></header>",
+      "css": ".ds-top{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 24px;padding:20px 0;background:var(--paper);color:var(--ink)}.ds-label{font:14px/1.4 var(--sans);color:var(--ink-2)}.ds-nav{display:flex;gap:4px 20px;font:600 15px var(--sans)}.ds-nav a{color:inherit;text-decoration:none;padding:4px 0}.ds-nav a:hover{text-decoration:underline;text-decoration-color:var(--hot);text-underline-offset:.2em}.ds-nav a:focus-visible{outline:2px solid var(--hot);outline-offset:3px}"
+    },
+    {
+      "name": "Figure Plate",
+      "kind": "card",
+      "refersTo": "plate-frame",
+      "description": "Hairline-framed plate with one emphasized event that turns Hot on hover or focus-within, and a numbered caption ending in one action.",
+      "html": "<figure class=\"ds-plate\"><div class=\"ds-frame\"><svg viewBox=\"0 0 200 120\"><path d=\"M24 100 H196\" stroke=\"currentColor\" fill=\"none\"/><g class=\"ds-q\"><rect x=\"38\" y=\"70\" width=\"10\" height=\"30\"/><rect x=\"50\" y=\"38\" width=\"10\" height=\"62\"/><rect x=\"62\" y=\"20\" width=\"10\" height=\"80\"/><rect x=\"74\" y=\"40\" width=\"10\" height=\"60\"/></g><rect class=\"ds-hot\" x=\"110\" y=\"60\" width=\"40\" height=\"40\"/><text x=\"24\" y=\"112\">0</text><text x=\"139\" y=\"112\">100 ms</text></svg></div><figcaption><b>Fig. 2</b> <strong>Project.</strong> One caption sentence with a real number. <span class=\"ds-note\">Distribution illustrative.</span><span class=\"ds-meta\">Python · Redis <a href=\"#\">Read how it works</a></span></figcaption></figure>",
+      "css": ".ds-plate{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;margin:0;color:var(--ink);font:16px/1.5 var(--serif);max-width:300px}.ds-frame{background:var(--plate);border:1px solid var(--rule);padding:10px}.ds-frame svg{display:block;width:100%;height:auto;color:var(--ink)}.ds-frame text{font:9.6px var(--sans);fill:var(--ink-2)}.ds-q rect{fill:var(--quiet-2);stroke:var(--quiet-line);stroke-width:.8}.ds-hot{fill:var(--mark);transition:fill .25s cubic-bezier(.16,1,.3,1)}.ds-plate:hover .ds-hot,.ds-plate:focus-within .ds-hot{fill:var(--hot)}.ds-plate figcaption{margin-top:10px}.ds-plate figcaption b{font:700 16px var(--sans);font-stretch:112%}.ds-note{color:var(--ink-2)}.ds-meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;font:14px/1.4 var(--sans);color:var(--ink-2)}.ds-meta a{color:var(--ink);font-weight:600;text-underline-offset:.2em}.ds-meta a:hover{text-decoration-thickness:2px;text-decoration-color:var(--hot)}.ds-meta a:focus-visible{outline:2px solid var(--hot);outline-offset:3px}"
+    },
+    {
+      "name": "Stepped Key",
+      "kind": "custom",
+      "refersTo": "r1",
+      "description": "Six flush ramp swatches with range labels; the legend for every quantity encoding.",
+      "html": "<div class=\"ds-key\"><span class=\"ds-key-l\">Samples per bin</span><ol><li><i style=\"background:var(--r1)\"></i>1</li><li><i style=\"background:var(--r2)\"></i>2-3</li><li><i style=\"background:var(--r3)\"></i>4-7</li><li><i style=\"background:var(--r4)\"></i>8-12</li><li><i style=\"background:var(--r5)\"></i>13-19</li><li><i style=\"background:var(--r6)\"></i>20-28</li></ol></div>",
+      "css": ".ds-key{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:flex-start;font:12px var(--sans);color:var(--ink-2)}.ds-key-l{font-size:13px;line-height:10px}.ds-key ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(3em,1fr));gap:1px;width:min(100%,22em)}.ds-key li{display:grid;gap:4px;text-align:center}.ds-key i{display:block;height:10px}"
+    },
+    {
+      "name": "Section Rule and Headline",
+      "kind": "custom",
+      "refersTo": "headline",
+      "description": "Every section opens with a 1.5px ink rule and an expanded heavy headline.",
+      "html": "<section class=\"ds-block\"><h2>Selected work</h2></section>",
+      "css": ".ds-block{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;padding-top:16px;border-top:1.5px solid var(--ink);color:var(--ink)}.ds-block h2{font:800 clamp(26px,2.6vw,34px)/1.1 var(--sans);font-stretch:112%;letter-spacing:-.015em;margin:0 0 24px}"
+    },
+    {
+      "name": "Numbered Table",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "Table n caption above, ink header rule, hairline rows.",
+      "html": "<div class=\"ds-tbl\"><p class=\"ds-tcap\"><b>Table 2</b> Skills, with the figures that use them.</p><table><thead><tr><th>Area</th><th>Tools</th><th>Used in</th></tr></thead><tbody><tr><th>Python</th><td>NumPy, Flask</td><td><a href=\"#\">Fig. 2</a></td></tr></tbody></table></div>",
+      "css": ".ds-tbl{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;color:var(--ink);font:16px/1.55 var(--serif)}.ds-tcap{font:14px/1.4 var(--sans);color:var(--ink-2);margin:0 0 12px}.ds-tcap b{color:var(--ink);font-stretch:112%}.ds-tbl table{width:100%;border-collapse:collapse}.ds-tbl th,.ds-tbl td{text-align:left;vertical-align:top;padding:10px 16px 10px 0;border-bottom:1px solid var(--rule)}.ds-tbl thead th{font:600 14px var(--sans);color:var(--ink-2);border-bottom:1.5px solid var(--ink)}.ds-tbl tbody th{font:700 16px var(--sans)}.ds-tbl a{color:inherit;font:15px var(--sans);text-underline-offset:.2em}.ds-tbl a:hover{text-decoration-thickness:2px;text-decoration-color:var(--hot)}.ds-tbl a:focus-visible{outline:2px solid var(--hot);outline-offset:3px}"
+    },
+    {
+      "name": "Draft Mark",
+      "kind": "chip",
+      "refersTo": "draft-mark",
+      "description": "Highlighted placeholder for copy Evan has not yet written.",
+      "html": "<p class=\"ds-p\"><mark class=\"ds-draft\">One sentence in your own voice about what you build and why.</mark></p>",
+      "css": ".ds-p{--paper:#f7f8fa;--plate:#fff;--ink:#151a2e;--ink-2:#4d566b;--rule:#cfd4de;--r1:#fcefb4;--r2:#fe9f6d;--r3:#de4968;--r4:#8c2981;--r5:#3b0f70;--r6:#150d34;--hot:#de4968;--mark:#fe9f6d;--on-mark:#151a2e;--quiet:#e3dbee;--quiet-2:#d7c3e3;--quiet-line:#6e5a8f;--draft:#fcefb4;--sans:'Archivo','Arial Narrow',sans-serif;--serif:'STIX Two Text','Times New Roman',serif;font:400 20px/1.45 var(--serif);color:var(--ink)}.ds-draft{color:inherit;background:var(--draft);box-shadow:0 0 0 .15em var(--draft);border-radius:1px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Figure Plate Sheet",
+    "overview": "The site reads as one sheet of scientific plotting paper: numbered figure plates drawn by code, captions in a book serif, tables with numbered captions, and heavy expanded sans for the name and figure numbers. Every figure shows its baseline, axes or key, and labels illustrative data as illustrative. Color belongs to data: one magma-family heat ramp is the only chroma, and a single reserved hot accent marks the one thing in each plate that matters.\n\nDensity is high and deliberate. Small multiples sit four across, captions run full paragraphs, and sections are separated by heavy ink rules instead of whitespace boxes. Surfaces are flat: plate grounds and hairlines carry all structure, with no shadows and almost no radius.\n\nThe world has a full dark counterpart driven by `prefers-color-scheme`: deep blue-black paper, light ink, and the magma ramp inverted so that quantity always moves toward the ground's opposite.",
+    "keyCharacteristics": [
+      "Cool white plotting paper, blue-black ink, magma ramp as the only color.",
+      "Numbered captions: `Fig. n` under every figure, `Table n` above every table.",
+      "Hairline plate frames on a white plate ground, 10px inset.",
+      "1.5px ink rules open every section and the footer.",
+      "Archivo expanded heavy for display and numbers; STIX Two Text for prose and captions; lining tabular figures everywhere.",
+      "User-owned copy that is not yet written shows as a highlighted draft mark."
+    ],
+    "rules": [
+      {
+        "name": "The Data Owns Color Rule",
+        "body": "The ramp, Mark, Hot and Quiet tokens color figures and their states; text, chrome and grounds stay Ink, Ink-2, Paper, Plate and Rule.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Hot Thing Rule",
+        "body": "Each plate emphasizes one event: a Mark fill, an Ink emphasis line, or both on the same event, and only that event turns Hot on interaction.",
+        "section": "colors"
+      },
+      {
+        "name": "The Inverted Ramp Rule",
+        "body": "In dark mode the ramp reverses so its highest step is the lightest; quantity always reads as distance from the ground.",
+        "section": "colors"
+      },
+      {
+        "name": "The Numbers Are Sans Rule",
+        "body": "Figure and table numbers, axis ticks, key ranges and dates set in Archivo; sentences set in STIX.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "All text uses lining tabular numerals so columns of numbers align.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Sheet Rule",
+        "body": "Surfaces never lift; separate them with a ground change and a hairline.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** open every figure caption with a bold Archivo `Fig. n` and every table with `Table n` in its caption above.",
+      "**Do** frame every drawing in a Plate ground with a 1px Rule border and 10px inset.",
+      "**Do** give each plate one emphasized event and let it go Hot on hover and focus-within.",
+      "**Do** use the six ramp steps in order to encode quantity and show them in a stepped key with ranges.",
+      "**Do** label illustrative data in the caption with an Ink-2 note.",
+      "**Do** open each section with a 1.5px Ink rule and an Archivo 800 headline.",
+      "**Do** set placeholder copy in a Draft mark until Evan writes it.",
+      "**Do** define every color as a token with a dark-mode counterpart in the same `:root` override."
+    ],
+    "donts": [
+      "**Don't** add shadows, gradients or rounded cards; separate surfaces with Plate ground and hairlines.",
+      "**Don't** introduce a hue outside the magma ramp, Quiet family and Draft.",
+      "**Don't** use Hot at rest; it is the response to hover, focus-within and focus.",
+      "**Don't** set sentences in Archivo or numbers in STIX."
+    ]
+  }
+}
