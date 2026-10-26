@@ -29,6 +29,42 @@
         ],
         "createdAt": "2026-10-26T02:44:53.502Z",
         "reason": "Claude: review page embeds site mocks whose h1/h2 reproduce each real page's outline inside h3 direction cards"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          ".lavish/personal-site-directions.html"
+        ],
+        "createdAt": "2026-10-26T04:18:48.018Z",
+        "reason": "Claude: gitignored decision page that deliberately shows five rival directions in their own palettes and fonts; not part of the shipped site"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".lavish/personal-site-directions.html"
+        ],
+        "createdAt": "2026-10-26T04:18:48.156Z",
+        "reason": "Claude: gitignored decision page that deliberately shows five rival directions in their own palettes and fonts; not part of the shipped site"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          ".lavish/personal-site-directions.html"
+        ],
+        "createdAt": "2026-10-26T04:18:48.310Z",
+        "reason": "Claude: gitignored decision page that deliberately shows five rival directions in their own palettes and fonts; not part of the shipped site"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          ".lavish/personal-site-directions.html"
+        ],
+        "createdAt": "2026-10-26T04:18:48.467Z",
+        "reason": "Claude: gitignored decision page that deliberately shows five rival directions in their own palettes and fonts; not part of the shipped site"
       }
     ]
   }
