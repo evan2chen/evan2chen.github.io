@@ -1,0 +1,21 @@
+{
+  "name": "evan2chen.github.io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "resume": "node scripts/build-resume.mjs",
+    "build:site": "astro build",
+    "build": "npm run resume && npm run build:site",
+    "preview": "astro preview",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "typescript": "^7.0.2"
+  }
+}

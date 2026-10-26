@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+import { person, site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={person.name} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#11152a" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/stix-two-text-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>

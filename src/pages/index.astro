@@ -1,0 +1,467 @@
+---
+import Base from '../layouts/Base.astro';
+import Copy from '../components/Copy.astro';
+import Fig1 from '../components/Fig1.astro';
+import Plate from '../components/Plate.astro';
+import FigCircuit from '../components/FigCircuit.astro';
+import FigHerd from '../components/FigHerd.astro';
+import FigPhases from '../components/FigPhases.astro';
+import FigLatency from '../components/FigLatency.astro';
+import { person, selectedWork, experience, research, moreWork, about, education, skills, otherSkills } from '../data/site';
+
+const drawings = { quantum: FigCircuit, herd: FigHerd, midboss: FigPhases, valorant: FigLatency };
+const year = new Date().getFullYear();
+---
+
+<Base>
+  <header class="top wrap no-print">
+    <span class="label">evan2chen.github.io</span>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#research">Research</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="hero" aria-labelledby="name">
+      <div class="intro">
+        <h1 id="name">Evan<br />Chen</h1>
+        <p class="statement"><Copy text={person.statement} /></p>
+        <p class="status label">
+          <strong>{person.role}.</strong>{' '}{person.degree}, {person.school}, {person.graduation}. Two internships at Amazon. {person.status}
+        </p>
+        <div class="actions stacked">
+          <a class="primary" href={person.resume}>Resume (PDF)</a>
+          <span class="links">
+            <a href={`mailto:${person.email}`}>{person.email}</a>
+            <a href={person.github}>GitHub</a>
+            <a href={person.linkedin}>LinkedIn</a>
+          </span>
+        </div>
+      </div>
+      <Fig1 />
+    </section>
+
+    <section id="work" class="block" aria-labelledby="work-h">
+      <h2 id="work-h">Selected work</h2>
+      <div class="multiples">
+        {
+          selectedWork.map((figure) => {
+            const Drawing = drawings[figure.id as keyof typeof drawings];
+            return (
+              <Plate figure={figure}>
+                <Drawing />
+              </Plate>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <section id="experience" class="block split" aria-labelledby="experience-h">
+      <h2 id="experience-h">Experience</h2>
+      <div>
+        <p class="tcap label"><b>Table 1</b> Internships, most recent first.</p>
+        <ol class="rows">
+          {
+            experience.map((job) => (
+              <li>
+                <div class="when label">{job.period}</div>
+                <div class="who">
+                  <h3>{job.org}</h3>
+                  <p class="label">{job.role} · {job.place}</p>
+                </div>
+                <ul class="results">
+                  {job.results.map((r) => <li>{r}</li>)}
+                </ul>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section id="research" class="block split" aria-labelledby="research-h">
+      <h2 id="research-h">Research</h2>
+      <div class="paper">
+        <h3>{research.title}</h3>
+        <p class="label">
+          {research.authors.map((a, i) => (
+            <>
+              {i > 0 && ', '}
+              {a === person.name ? <strong>{a}</strong> : a}
+            </>
+          ))}
+          <br />
+          {research.venue}
+        </p>
+        <ul class="results">
+          {research.role.map((r) => <li>{r}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="block split" aria-labelledby="more-h">
+      <h2 id="more-h">More work</h2>
+      <ul class="more">
+        {
+          moreWork.map((w) => (
+            <li>
+              <h3>{w.title}</h3>
+              <p>{w.detail}</p>
+              <p class="label">{w.stack}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="about" class="block split" aria-labelledby="about-h">
+      <h2 id="about-h">About</h2>
+      <div class="prose">
+        <p><Copy text={about.text} /></p>
+        <p class="now"><span class="label">Now, {about.now.date}</span> <Copy text={about.now.text} /></p>
+      </div>
+    </section>
+
+    <section class="block split" aria-labelledby="edu-h">
+      <h2 id="edu-h">Education and skills</h2>
+      <div>
+        <h3>{education.school}</h3>
+        <p class="label">{education.degree} · GPA {education.gpa} · {education.graduation}</p>
+        <p class="coursework">{education.coursework}</p>
+        <p class="tcap label"><b>Table 2</b> Skills, with the figures that use them.</p>
+        <table class="skills">
+          <thead>
+            <tr><th scope="col">Area</th><th scope="col">Tools</th><th scope="col">Used in</th></tr>
+          </thead>
+          <tbody>
+            {
+              skills.map((s) => (
+                <tr>
+                  <th scope="row">{s.area}</th>
+                  <td>{s.items}</td>
+                  <td>
+                    {s.figures.map((n, i) => (
+                      <>
+                        {i > 0 && ', '}
+                        <a href={`#fig-${n}`}>Fig. {n}</a>
+                      </>
+                    ))}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="label">{otherSkills}</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="foot">
+    <div class="actions">
+      <a class="primary" href={person.resume}>Resume (PDF)</a>
+      <span class="links">
+        <a href={`mailto:${person.email}`}>{person.email}</a>
+        <a href={person.github}>GitHub</a>
+        <a href={person.linkedin}>LinkedIn</a>
+      </span>
+    </div>
+    <p class="label">Set in Archivo and STIX Two Text. Every figure is drawn by code; illustrative data is labeled. © {year} Evan Chen.</p>
+    </div>
+  </footer>
+</Base>
+
+<style>
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .top nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    font: 600 15px var(--sans);
+  }
+
+  .top nav a {
+    text-decoration: none;
+    padding: 4px 0;
+  }
+
+  .top nav a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--hot);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
+    padding-top: clamp(16px, 4vw, 48px);
+  }
+
+  h1 {
+    font-weight: 800;
+    font-stretch: 118%;
+    font-size: clamp(56px, 7.4vw, 96px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin: 0 0 24px;
+  }
+
+  .statement {
+    font-size: clamp(19px, 1.6vw, 22px);
+    line-height: 1.45;
+    margin: 0 0 16px;
+    max-width: 30em;
+  }
+
+  .status {
+    margin: 0 0 24px;
+    max-width: 34em;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .status strong {
+    color: var(--ink);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+    font: 500 16px var(--sans);
+  }
+
+  .actions.stacked {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+
+  .actions a.primary {
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 2px;
+  }
+
+  .actions a.primary:hover {
+    background: var(--r5);
+    color: var(--paper);
+  }
+
+  .block {
+    margin-top: clamp(64px, 9vw, 112px);
+    padding-top: 16px;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  h2 {
+    font-weight: 800;
+    font-stretch: 112%;
+    font-size: clamp(26px, 2.6vw, 34px);
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 0 0 24px;
+  }
+
+  h3 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 0 0 4px;
+  }
+
+  .multiples {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    gap: 0 clamp(24px, 4vw, 64px);
+  }
+
+  .tcap {
+    margin: 0 0 12px;
+  }
+
+  .tcap b {
+    color: var(--ink);
+    font-stretch: 112%;
+  }
+
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .rows > li {
+    display: grid;
+    grid-template-columns: minmax(0, 8em) minmax(0, 12em) minmax(0, 1fr);
+    gap: 8px 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .who p {
+    margin: 0;
+  }
+
+  .results {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.1em;
+    max-width: var(--measure);
+  }
+
+  .results li {
+    margin: 0 0 8px;
+  }
+
+  .results li::marker {
+    color: var(--ink-2);
+  }
+
+  .paper .label {
+    margin: 4px 0 14px;
+    font-size: 15px;
+  }
+
+  .paper .label strong {
+    color: var(--ink);
+  }
+
+  .more {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 40px;
+  }
+
+  .more p {
+    margin: 4px 0;
+    max-width: var(--measure);
+  }
+
+  .prose p {
+    max-width: var(--measure);
+    margin: 0 0 16px;
+  }
+
+  .now .label {
+    font-weight: 600;
+    margin-right: 6px;
+  }
+
+  .coursework {
+    max-width: var(--measure);
+    margin: 10px 0 28px;
+    font-size: 16px;
+  }
+
+  .skills {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .skills th,
+  .skills td {
+    text-align: left;
+    vertical-align: top;
+    padding: 10px 16px 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .skills thead th {
+    font: 600 14px var(--sans);
+    color: var(--ink-2);
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .skills tbody th {
+    font: 700 16px var(--sans);
+  }
+
+  .skills td a {
+    font-family: var(--sans);
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  footer {
+    margin-top: clamp(80px, 10vw, 128px);
+    padding-bottom: 48px;
+  }
+
+  .foot {
+    padding-top: 24px;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  footer .label {
+    margin: 24px 0 0;
+  }
+
+  @media (max-width: 1100px) {
+    .multiples {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero,
+    .split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .rows > li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+    }
+
+    .more {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .multiples {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .skills {
+      font-size: 15px;
+    }
+  }
+</style>

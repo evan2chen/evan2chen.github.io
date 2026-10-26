@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          ".lavish/personal-site-directions.html"
+        ],
+        "createdAt": "2026-10-26T01:26:16.874Z",
+        "reason": "Claude: review page only; flagged 9.6px is SVG viewBox units in scaled figure plates, rendered about 12px (verified by screenshot)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".lavish/personal-site-directions.html"
+        ],
+        "createdAt": "2026-10-26T01:26:43.883Z",
+        "reason": "Claude: review page mocks pad with clamp() and container-query units the static check cannot resolve; screenshots at 1280px and 500px show 18-48px insets"
+      },
+      {
+        "rule": "skipped-heading",
+        "value": "*",
+        "files": [
+          ".lavish/personal-site-directions.html"
+        ],
+        "createdAt": "2026-10-26T02:44:53.502Z",
+        "reason": "Claude: review page embeds site mocks whose h1/h2 reproduce each real page's outline inside h3 direction cards"
+      }
+    ]
+  }
+}

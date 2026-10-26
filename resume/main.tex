@@ -1,0 +1,212 @@
+%-------------------------
+% Resume in LaTeX
+% Author: Evan Chen
+%-------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{multicol}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-0.6in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+
+\newcommand{\resumeItem}[1]{
+  \item\small{#1 \vspace{-2pt}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\phoneline}{}
+\IfFileExists{private.tex}{\input{private.tex}}{}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Evan Chen} \\ \vspace{4pt}
+    \small \phoneline
+    \href{mailto:evan2.fm@gmail.com}{\underline{evan2.fm@gmail.com}} $|$
+    \href{https://evan2chen.github.io}{\underline{evan2chen.github.io}} $|$
+    \href{https://www.linkedin.com/in/evan--chen/}{\underline{linkedin.com/in/evan--chen}}
+\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of Maryland}{College Park, MD}
+      {B.S., Computer Science \& Mathematics \textnormal{(dual degree) --- GPA: 3.9/4.0}}{Expected May 2027}
+      \resumeItemListStart
+        \resumeItem{\textbf{Relevant Coursework:} Advanced Data Structures, Algorithm Analysis, Machine Learning,
+          Object-Oriented Programming, Functional Programming,
+          Quantum Computing, Linear Algebra, Multivariable Calculus, Differential Equations,
+          Discrete Math, Complex Analysis, Combinatorics, Statistics, Group Theory, Signal Processing}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Professional Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Amazon}{Seattle, WA}
+      {Software Engineer Intern}{June 1, 2026 -- August 21, 2026}
+      \resumeItemListStart
+        \resumeItem{Boosted researcher productivity by 20\% by exposing 100K+ raw datapoints from SageMaker to a SQL query-able catalog.}
+        \resumeItem{Automated 2.5 human work-hours/week by giving AI Agents semantic context through MCP-readable feature descriptions.}
+        \resumeItem{Reduced on-call workload by 2 hours/week by enabling on-click AI debugging  and documenting a detailed service runbook. }
+      \resumeItemListEnd
+    \resumeSubheading
+      {Amazon}{Seattle, WA}
+      {Software Engineer Intern}{May 27, 2025 -- August 18, 2025}
+      \resumeItemListStart
+        \resumeItem{Enabled the first set of security measures for a high-traffic compliance API by designing a configurable access control layer.}
+        \resumeItem{Served 1.2K requests/min at 15ms p90 over a redaction config store
+          by caching the results of hot-path read operations.}
+        \resumeItem{Reduced team-wide onboarding time by 50\% by documenting a cohesive setup guide for a novel integration testing suite.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+%-----------RESEARCH-----------
+\section{Research}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {The Retrieval-Robustness Paradox: Data Poisoning in
+Retrieval-Dependent Domains}{}
+      {\textit{Accepted to TAE @ NeurIPS 2026} -- James Zhou, \textbf{Evan Chen}, Wei Zou, Jinyuan Jia}{}
+      \resumeItemListStart
+        \resumeItem{Surveyed \& curated evaluation frameworks for 3 datasets to form retrieval-dependent tasks for RAG defense benchmarking.}
+        \resumeItem{Quantified retrieval-dependence by comparing RAG and no-RAG accuracy to select datasets to be included in the paper.}
+        % \resumeItem{Showed poisoning defenses recover 25\% accuracy on retrieval-redundant tasks versus 0\%
+        %   on dependent tasks over 6 datasets.}
+        \resumeItem{Illustrated the paper's 3 flagship figures and co-wrote the abstract and intro to communicate key ideas and findings.}
+        
+         
+        
+    
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+%-----------PROJECTS-----------
+\section{Projects}
+  \resumeSubHeadingListStart
+      
+    \resumeProjectHeading
+      {\textbf{Valorant Assistant} $|$ \emph{Full-Stack Web App (Python, Redis, MongoDB, AWS EC2)}}{}
+      \resumeItemListStart
+        \resumeItem{Boosted win-rate by 10\% for 60+ users with positioning advice by mapping safe zones
+          from 10K ranked Valorant matches.}
+        \resumeItem{Held p95 latency under 100 ms over 1.1 M match data points by fronting MongoDB
+          with a Redis hot-path cache.}
+        \resumeItem{Shipped an industry-first  feature: interactive range query-able heatmaps generated efficiently using 2D histogram binning.}
+    
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Quantum SAT Solver via AST Oracle Compilation} $|$ \emph{Quantum Computing (Python, Qiskit, Z3)}}{}
+      \resumeItemListStart
+        \resumeItem{Built a compiler encoding arbitrary boolean expressions into quantum oracles
+          by recursively walking the AST.}
+        \resumeItem{Cut ancilla qubit count by 45\% vs.\ a one-per-node baseline by solving the Reversible
+          Pebble Game on a DAG using Z3.}
+        \resumeItem{Solved 6-variable SAT in $\sqrt{2^6}$ oracle queries by feeding compiled oracles
+          to Grover's Algorithm, verified classically.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{IMC Prosperity Trading Challenge} $|$ \emph{Algorithmic Trading, Game Theory, Statistics}}{}
+      \resumeItemListStart
+        \resumeItem{Placed \textbf{top 100 globally} and \textbf{top 35 in the US} at peak, of 12K teams
+          via market making, arb, and game-theoretic bids.}
+        \resumeItem{Netted \$350,000 of total simulated P\&L by developing 4 algorithmic trading strategies and manually trading across 5 rounds.}
+        \resumeItem{Cut team strategy iteration time by 70\% by sharing an offline Chart.js dashboard replaying
+          order books, P\&L, and arb.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{GEA Bot} $|$ \emph{Discord Puzzle Bot (Python, Azure)}}{}
+      \resumeItemListStart    
+      \resumeItem{Created real-time multi-user competitions on 100k+ 2nd-order sequence recognition puzzles using procedural generation.}
+      \resumeItem{Boosted engagement by 67\% with an AI debate competition where users steer LLMs with adversarial prompt engineering.}
+        \resumeItem{Achieved 24/7 bot uptime by deploying changes to Microsoft Azure via a streamlined development-to-production pipeline.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages:} Java, Python, C, Rust, OCaml, TypeScript, JavaScript, MATLAB, R, Assembly \\[2pt]
+     \textbf{Libraries \& Frameworks:} Flask, NumPy, Pandas, SciPy, scikit-learn, Matplotlib, Qiskit, React \\[2pt]
+     \textbf{Databases \& Infrastructure:} MongoDB, Redis, DynamoDB, PostgreSQL, AWS (EC2, ECS, Lambda, CloudFormation, IAM) \\[2pt]
+     \textbf{Developer Tools:} Git, Jupyter, VS Code, Cursor, GitHub Copilot, Claude Code, Docker \\[2pt]
+     \textbf{Spoken Languages:} Fluent in English and Mandarin Chinese
+    }}
+ \end{itemize}
+
+%-------------------------------------------
+\end{document}

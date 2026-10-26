@@ -1,0 +1,211 @@
+---
+import { COLS, ROWS, seeded } from '../lib/histogram';
+
+const hist = seeded();
+const cells = [];
+for (let y = 0; y < ROWS; y++) {
+  for (let x = 0; x < COLS; x++) {
+    const level = hist.level(hist.bins[y * COLS + x]);
+    if (level) cells.push({ x, y, level });
+  }
+}
+const xTicks = [0, 8, 16, 24, 32];
+const yTicks = [18, 12, 6, 0];
+---
+
+<figure class="fig1" id="fig-1" aria-labelledby="fig-1-caption">
+  <div class="tools no-print">
+    <div class="modes" role="group" aria-label="Figure 1 mode">
+      <button type="button" data-mode="draw" aria-pressed="true">Draw</button>
+      <button type="button" data-mode="query" aria-pressed="false">Query</button>
+    </div>
+    <button type="button" data-action="reset">Reset</button>
+  </div>
+  <div class="plot">
+    <div class="y" aria-hidden="true">{yTicks.map((t) => <span>{t}</span>)}</div>
+    <div class="field">
+      <svg class="fig1-fallback" viewBox={`0 0 ${COLS} ${ROWS}`} preserveAspectRatio="none" role="img" aria-label="Heatmap of synthetic sample points in four clusters">
+        {cells.map((c) => <rect x={c.x} y={c.y} width="0.92" height="0.92" class={`l${c.level}`} />)}
+      </svg>
+      <canvas hidden tabindex="0" aria-label="Interactive heatmap. In Draw mode, move the pointer or use arrow keys and Enter to add samples. In Query mode, drag or use Enter, arrows and Enter to select a box." aria-describedby="fig-1-readout"></canvas>
+    </div>
+    <div class="x" aria-hidden="true">{xTicks.map((t) => <span>{t}</span>)}</div>
+  </div>
+  <div class="key" aria-label="Color key: samples per bin, in six steps from zero to the current maximum">
+    <span class="key-label label">Samples per bin</span>
+    <div class="key-bar" aria-hidden="true">{[1, 2, 3, 4, 5, 6].map((l) => <span class={`k${l}`}></span>)}</div>
+    <div class="key-ticks label">{hist.boundaries().map((b) => <span>{b.toLocaleString('en-US')}</span>)}</div>
+  </div>
+  <figcaption id="fig-1-caption">
+    <b>Fig. 1</b> Your cursor, binned into a 32 × 18 histogram as you move: the same 2D binning behind Valorant Assistant's range-queryable heatmaps. Switch to Query and drag a box to count what's inside. Seeded with synthetic points.
+  </figcaption>
+  <p class="fig1-readout label" id="fig-1-readout" aria-live="polite">{hist.total.toLocaleString('en-US')} samples.</p>
+</figure>
+
+<script>
+  import { initFig1 } from '../lib/fig1';
+
+  const root = document.getElementById('fig-1');
+  if (root) initFig1(root);
+</script>
+
+<style>
+  .fig1 {
+    margin: 0;
+  }
+
+  .tools {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .modes {
+    display: flex;
+  }
+
+  .tools button {
+    font: 600 14px/1 var(--sans);
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 8px 14px;
+    cursor: pointer;
+    min-height: 36px;
+  }
+
+  .tools button + button {
+    border-left: 0;
+  }
+
+  .tools button[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .tools button:hover:not([aria-pressed='true']) {
+    border-color: var(--ink-2);
+  }
+
+  .fig1:not([data-live]) .tools {
+    display: none;
+  }
+
+  .plot {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: 4px 8px;
+  }
+
+  .y,
+  .x {
+    font: 400 12px/1 var(--sans);
+    color: var(--ink-2);
+  }
+
+  .y {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: right;
+    padding: 2px 0;
+  }
+
+  .x {
+    grid-column: 2;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .field {
+    position: relative;
+    aspect-ratio: 32 / 18;
+    background: var(--plate);
+    border: 1px solid var(--rule);
+  }
+
+  .field > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .field > [hidden] {
+    display: none;
+  }
+
+  canvas {
+    cursor: crosshair;
+  }
+
+  canvas:focus-visible {
+    outline-offset: 2px;
+  }
+
+  .l1 { fill: var(--r1); }
+  .l2 { fill: var(--r2); }
+  .l3 { fill: var(--r3); }
+  .l4 { fill: var(--r4); }
+  .l5 { fill: var(--r5); }
+  .l6 { fill: var(--r6); }
+
+  .key {
+    display: grid;
+    grid-template-columns: auto minmax(0, 18em);
+    grid-template-rows: auto auto;
+    gap: 4px 12px;
+    align-items: center;
+    margin: 12px 0 0 auto;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .key-label {
+    grid-row: 1;
+    font-size: 13px;
+  }
+
+  .key-bar {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1px;
+    height: 10px;
+  }
+
+  .key-ticks {
+    grid-column: 2;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin: 0 -0.4em;
+  }
+
+  .k1 { background: var(--r1); }
+  .k2 { background: var(--r2); }
+  .k3 { background: var(--r3); }
+  .k4 { background: var(--r4); }
+  .k5 { background: var(--r5); }
+  .k6 { background: var(--r6); }
+
+  figcaption {
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 52em;
+  }
+
+  figcaption b {
+    font: 700 16px var(--sans);
+    font-stretch: 112%;
+    margin-right: 4px;
+  }
+
+  .fig1-readout {
+    margin: 6px 0 0;
+    min-height: 1.4em;
+  }
+</style>

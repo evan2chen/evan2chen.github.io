@@ -1,0 +1,11 @@
+---
+import type { Text } from '../data/site';
+
+interface Props {
+  text: Text;
+}
+
+const { text } = Astro.props;
+---
+
+{typeof text === 'string' ? text : <mark class="draft" data-draft>{text.draft}</mark>}

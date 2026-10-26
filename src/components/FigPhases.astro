@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 120" role="img" aria-label="Phase machine: Warmup to Restarting to Ongoing to Ending; Ending returns to Restarting for the next round, or to Warmup when too few players remain">
+  <defs><marker id="phase-arrow" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L6 3 L0 6z" fill="var(--ink)" /></marker></defs>
+  <g class="box"><rect x="10" y="12" width="72" height="24" /><rect x="118" y="12" width="72" height="24" /><rect x="10" y="74" width="72" height="24" /></g>
+  <rect class="hot" x="118" y="74" width="72" height="24" stroke="var(--ink)" />
+  <text x="30" y="27">Warmup</text><text x="133" y="27">Restarting</text><text class="on-hot" x="136" y="89">Ongoing</text><text x="31" y="89">Ending</text>
+  <g class="ink" stroke-width="1" marker-end="url(#phase-arrow)">
+    <path d="M82 24 H117" /><path d="M154 36 V73" /><path d="M118 86 H83" /><path d="M82 74 L117 39" />
+    <path d="M46 74 V37" stroke-dasharray="3 2" />
+  </g>
+  <text x="50" y="59">too few</text><text x="104" y="66">next round</text>
+  <text x="2" y="117">6v6 · no respawns · 5 min cap</text>
+</svg>
