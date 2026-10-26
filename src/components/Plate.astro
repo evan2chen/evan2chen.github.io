@@ -53,6 +53,12 @@ const { figure } = Astro.props;
   }
 
   .frame :global(.f1) { fill: var(--r1); }
+  .frame :global(.q1),
+  .frame :global(.q2) {
+    stroke: var(--quiet-line);
+    stroke-width: 0.8;
+  }
+
   .frame :global(.q1) { fill: var(--quiet); }
   .frame :global(.q2) { fill: var(--quiet-2); }
 

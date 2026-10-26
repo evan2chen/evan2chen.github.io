@@ -28,8 +28,9 @@
   --hot: #de4968;
   --mark: #fe9f6d;
   --on-mark: #151a2e;
-  --quiet: #3b0f70;
-  --quiet-2: #8c2981;
+  --quiet: #e3dbee;
+  --quiet-2: #d7c3e3;
+  --quiet-line: #6e5a8f;
   --draft: #fcefb4;
   --sans: 'Archivo', 'Arial Narrow', sans-serif;
   --serif: 'STIX Two Text', 'Times New Roman', serif;
@@ -56,6 +57,7 @@
     --on-mark: #151a2e;
     --quiet: #4b2a7a;
     --quiet-2: #8c2981;
+    --quiet-line: #8c6cb8;
     --draft: #4a2a1f;
     color-scheme: dark;
   }

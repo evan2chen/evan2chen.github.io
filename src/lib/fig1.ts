@@ -11,6 +11,9 @@ const hex = (value: string): Rgb => {
 
 const fmt = (n: number) => n.toLocaleString('en-US');
 
+export const rangeLabel = (s: { lo: number; hi: number } | null) =>
+  s === null ? '-' : s.lo === s.hi ? fmt(s.lo) : `${fmt(s.lo)}-${fmt(s.hi)}`;
+
 export function initFig1(root: HTMLElement) {
   const canvas = root.querySelector('canvas')!;
   const fallback = root.querySelector<SVGElement>('.fig1-fallback')!;
@@ -38,7 +41,7 @@ export function initFig1(root: HTMLElement) {
     ink = style.getPropertyValue('--ink').trim();
   };
 
-  const ticks = [...root.querySelectorAll<HTMLElement>('.key-ticks span')];
+  const ranges = [...root.querySelectorAll<HTMLElement>('.key-range')];
   const color = (level: number) => `rgb(${ramp[level - 1].join(',')})`;
 
   const flipY = (row: number) => ROWS - 1 - row;
@@ -81,7 +84,7 @@ export function initFig1(root: HTMLElement) {
       ctx.setLineDash([]);
     }
     if (focused) ctx.strokeRect(cursor.x * w + dpr, cursor.y * h + dpr, w - 2 * dpr - gap, h - 2 * dpr - gap);
-    hist.boundaries().forEach((b, i) => (ticks[i].textContent = fmt(b)));
+    hist.steps().forEach((s, i) => (ranges[i].textContent = rangeLabel(s)));
     describe();
   };
 

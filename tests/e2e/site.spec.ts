@@ -109,13 +109,16 @@ for (const colorScheme of ['light', 'dark'] as const) {
 
 test('Fig. 1 key tracks the live maximum', async ({ page }) => {
   await page.goto('/');
-  const max = page.locator('#fig-1 .key-ticks span').last();
-  const before = Number((await max.textContent())!.replace(/,/g, ''));
+  const ranges = page.locator('#fig-1 .key-range');
+  const upper = async () => Number((await ranges.last().textContent())!.split('-').pop()!.replace(/,/g, ''));
+  await expect(ranges).toHaveCount(6);
+  await expect(ranges.first()).toHaveText(/^1(-|$)/);
+  const before = await upper();
   const box = (await page.locator('#fig-1 canvas').boundingBox())!;
   const x = box.x + box.width * 0.9;
   const y = box.y + box.height * 0.9;
   for (let i = 0; i < before + 5; i++) await page.mouse.move(x + (i % 2), y);
-  await expect.poll(async () => Number((await max.textContent())!.replace(/,/g, ''))).toBeGreaterThan(before);
+  await expect.poll(upper).toBeGreaterThan(before);
 });
 
 test('every selected-work figure ends in one action', async ({ page }) => {

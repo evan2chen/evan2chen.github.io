@@ -1,5 +1,6 @@
 ---
 import { COLS, ROWS, seeded } from '../lib/histogram';
+import { rangeLabel } from '../lib/fig1';
 
 const hist = seeded();
 const cells = [];
@@ -33,8 +34,16 @@ const yTicks = [18, 12, 6, 0];
   </div>
   <div class="key" aria-label="Color key: samples per bin, in six steps from zero to the current maximum">
     <span class="key-label label">Samples per bin</span>
-    <div class="key-bar" aria-hidden="true">{[1, 2, 3, 4, 5, 6].map((l) => <span class={`k${l}`}></span>)}</div>
-    <div class="key-ticks label">{hist.boundaries().map((b) => <span>{b.toLocaleString('en-US')}</span>)}</div>
+    <ol class="key-steps">
+      {
+        hist.steps().map((s, i) => (
+          <li>
+            <span class={`swatch k${i + 1}`} aria-hidden="true" />
+            <span class="key-range label">{rangeLabel(s)}</span>
+          </li>
+        ))
+      }
+    </ol>
   </div>
   <figcaption id="fig-1-caption">
     <b>Fig. 1</b> Your cursor, binned into a 32 × 18 histogram as you move: the same 2D binning behind Valorant Assistant's range-queryable heatmaps. Switch to Query and drag a box to count what's inside. Seeded with synthetic points.
@@ -154,34 +163,41 @@ const yTicks = [18, 12, 6, 0];
   .l6 { fill: var(--r6); }
 
   .key {
-    display: grid;
-    grid-template-columns: auto minmax(0, 18em);
-    grid-template-rows: auto auto;
-    gap: 4px 12px;
-    align-items: center;
-    margin: 12px 0 0 auto;
-    width: fit-content;
-    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 6px 12px;
+    margin-top: 12px;
   }
 
   .key-label {
-    grid-row: 1;
     font-size: 13px;
+    line-height: 10px;
   }
 
-  .key-bar {
+  .key-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(3em, 1fr));
     gap: 1px;
+    width: min(100%, 22em);
+  }
+
+  .key-steps li {
+    display: grid;
+    gap: 4px;
+  }
+
+  .swatch {
     height: 10px;
   }
 
-  .key-ticks {
-    grid-column: 2;
-    display: flex;
-    justify-content: space-between;
+  .key-range {
     font-size: 12px;
-    margin: 0 -0.4em;
+    text-align: center;
   }
 
   .k1 { background: var(--r1); }

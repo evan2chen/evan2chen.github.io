@@ -20,12 +20,26 @@ export class Histogram {
     return true;
   }
 
-  level(count: number) {
-    return count === 0 ? 0 : Math.max(1, Math.ceil(Math.sqrt(count / this.max) * LEVELS));
+  boundaries() {
+    const b = [0];
+    for (let k = 1; k <= LEVELS; k++) {
+      b.push(Math.min(this.max, Math.max(Math.round(this.max * (k / LEVELS) ** 2), b[k - 1] + 1)));
+    }
+    return b;
   }
 
-  boundaries() {
-    return Array.from({ length: LEVELS + 1 }, (_, k) => Math.round(this.max * (k / LEVELS) ** 2));
+  steps() {
+    const b = this.boundaries();
+    return b.slice(1).map((hi, k) => {
+      const lo = b[k] + 1;
+      return lo > hi ? null : { lo, hi };
+    });
+  }
+
+  level(count: number) {
+    if (count === 0) return 0;
+    const b = this.boundaries();
+    return b.findIndex((hi, k) => k > 0 && count <= hi);
   }
 
   query(box: Box) {
