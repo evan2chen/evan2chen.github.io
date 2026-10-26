@@ -52,7 +52,7 @@ const year = new Date().getFullYear();
             const Drawing = drawings[figure.id as keyof typeof drawings];
             return (
               <Plate figure={figure}>
-                <Drawing />
+                {Drawing && <Drawing />}
               </Plate>
             );
           })

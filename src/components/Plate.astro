@@ -9,7 +9,27 @@ const { figure } = Astro.props;
 ---
 
 <figure class="plate" id={`fig-${figure.number}`}>
-  <div class="frame"><slot /></div>
+  <div class="frame">
+    {
+      figure.video ? (
+        <video
+          poster={figure.video.poster}
+          aria-label={figure.video.description}
+          muted
+          loop
+          playsinline
+          controls
+          preload="metadata"
+          data-autoplay
+        >
+          <source src={figure.video.webm} type="video/webm" />
+          {figure.video.mp4 && <source src={figure.video.mp4} type="video/mp4" />}
+        </video>
+      ) : (
+        <slot />
+      )
+    }
+  </div>
   <figcaption>
     <b>Fig. {figure.number}</b>{' '}<strong>{figure.title}.</strong>{' '}{figure.caption}{figure.note && <>{' '}<span class="note">{figure.note}</span></>}
     <span class="meta label">
@@ -18,6 +38,23 @@ const { figure } = Astro.props;
     </span>
   </figcaption>
 </figure>
+
+<script>
+  const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
+  if (videos.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) video.play().catch(() => {});
+          else video.pause();
+        }
+      },
+      { threshold: 0.5 },
+    );
+    videos.forEach((video) => observer.observe(video));
+  }
+</script>
 
 <style>
   .plate {
@@ -28,6 +65,13 @@ const { figure } = Astro.props;
     background: var(--plate);
     border: 1px solid var(--rule);
     padding: 10px;
+  }
+
+  .frame video {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--ink);
   }
 
   .frame :global(svg) {

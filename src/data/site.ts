@@ -28,6 +28,7 @@ export type Figure = {
   note?: string;
   stack: string;
   action: { label: string; href?: string };
+  video?: { webm: string; mp4?: string; poster: string; description: string };
 };
 
 export const selectedWork: Figure[] = [

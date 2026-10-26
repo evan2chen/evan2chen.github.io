@@ -127,3 +127,36 @@ test('every selected-work figure ends in one action', async ({ page }) => {
     await expect(page.locator(`#fig-${n} .meta`).locator('a, mark')).toHaveCount(1);
   }
 });
+
+test.describe('figure videos', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    test.skip((await page.locator('.plate video').count()) === 0, 'no figure videos configured in src/data/site.ts');
+  });
+
+  test('are muted plates with controls that play once scrolled into view', async ({ page }) => {
+    const videos = page.locator('.plate video');
+    for (let i = 0; i < (await videos.count()); i++) {
+      const video = videos.nth(i);
+      await expect(video).toHaveAttribute('poster', /.+/);
+      await expect(video).toHaveAttribute('aria-label', /.+/);
+      await expect(video).toHaveAttribute('controls', '');
+      expect(await video.evaluate((el: HTMLVideoElement) => el.muted)).toBe(true);
+      for (const src of await video.locator('source').evaluateAll((els) => els.map((e) => e.getAttribute('src')!))) {
+        expect((await page.request.get(src)).status(), src).toBe(200);
+      }
+      expect((await page.request.get((await video.getAttribute('poster'))!)).status()).toBe(200);
+      await video.scrollIntoViewIfNeeded();
+      await expect.poll(() => video.evaluate((el: HTMLVideoElement) => !el.paused)).toBe(true);
+    }
+  });
+
+  test('stay paused when the visitor prefers reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.reload();
+    const video = page.locator('.plate video').first();
+    await video.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
+    expect(await video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+  });
+});
