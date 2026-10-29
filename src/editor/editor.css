@@ -1,0 +1,167 @@
+.ed-bar {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 500 13px/1 var(--font);
+  padding: 4px;
+}
+
+.ed-bar button,
+.ed-tools button,
+.ed-add button,
+.ed-dialog button {
+  font: 500 13px/1 var(--font);
+  border: 0;
+  cursor: pointer;
+  padding: 8px 10px;
+}
+
+.ed-bar button {
+  background: transparent;
+  color: var(--bg);
+}
+
+.ed-bar button:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--bg) 18%, transparent);
+}
+
+.ed-bar button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.ed-bar [data-ed='toggle'][aria-pressed='true'] {
+  background: var(--acc);
+  color: var(--on-acc);
+}
+
+.ed-status {
+  padding: 0 10px;
+  max-width: 34ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ed-status[data-tone='error'] {
+  color: var(--acc);
+}
+
+[data-editing] [data-edit-text] {
+  outline: 1px dashed var(--acc);
+  outline-offset: 2px;
+  cursor: text;
+}
+
+[data-editing] [data-edit-text]:focus {
+  outline-style: solid;
+}
+
+[data-editing] :is([data-edit-href], [data-edit-media], [data-edit-body], [data-edit-images], [data-edit-item]) {
+  position: relative;
+}
+
+.ed-tools {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 20;
+  display: flex;
+  gap: 1px;
+}
+
+.ed-tools button,
+.ed-add button {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.ed-tools button:hover,
+.ed-add button:hover {
+  background: var(--acc);
+  color: var(--on-acc);
+}
+
+.ed-add {
+  display: flex;
+  gap: 6px;
+  padding: 12px 0;
+}
+
+.ed-dialog {
+  width: min(760px, calc(100vw - 32px));
+  border: 1.5px solid var(--rule);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 20px;
+  font: 400 15px/1.5 var(--font);
+}
+
+.ed-dialog::backdrop {
+  background: rgb(0 0 0 / 0.45);
+}
+
+.ed-dialog h2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+
+.ed-dialog p {
+  margin: 0 0 12px;
+  color: var(--ink-2);
+}
+
+.ed-dialog input,
+.ed-dialog textarea {
+  width: 100%;
+  font: 400 15px/1.5 var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--hair);
+  padding: 8px 10px;
+}
+
+.ed-dialog textarea {
+  min-height: min(60vh, 520px);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 13px;
+}
+
+.ed-dialog pre {
+  max-height: 40vh;
+  overflow: auto;
+  background: var(--wash);
+  padding: 10px;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+
+.ed-dialog [hidden] {
+  display: none;
+}
+
+.ed-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.ed-actions button {
+  background: var(--wash);
+  color: var(--ink);
+}
+
+.ed-actions [data-ed='ok'] {
+  background: var(--ink);
+  color: var(--bg);
+}

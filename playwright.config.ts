@@ -6,13 +6,23 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   reporter: process.env.CI ? 'github' : 'list',
   use: {
-    baseURL: 'http://localhost:4321',
     trace: 'retain-on-failure',
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
-  webServer: {
-    command: 'npx astro preview --port 4321',
-    url: 'http://localhost:4321',
-    reuseExistingServer: !process.env.CI,
-  },
+  projects: [
+    { name: 'site', testMatch: 'site.spec.ts', use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4323', launchOptions: { ignoreDefaultArgs: ['--hide-scrollbars'] } } },
+    { name: 'editor', testMatch: 'editor.spec.ts', use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4322' } },
+  ],
+  webServer: [
+    {
+      command: 'npx astro preview --port 4323',
+      url: 'http://localhost:4323',
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: 'node scripts/editor-sandbox.mjs 4322',
+      url: 'http://localhost:4322',
+      reuseExistingServer: false,
+      timeout: 180_000,
+    },
+  ],
 });

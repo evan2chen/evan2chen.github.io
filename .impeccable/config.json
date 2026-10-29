@@ -65,6 +65,93 @@
         ],
         "createdAt": "2026-10-26T04:18:48.467Z",
         "reason": "Claude: gitignored decision page that deliberately shows five rival directions in their own palettes and fonts; not part of the shipped site"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          ".lavish/site-overhaul-directions.html"
+        ],
+        "createdAt": "2026-10-27T00:52:34.628Z",
+        "reason": "Claude: gitignored decision page; user asked to explore fresh directions outside the current system, so each mock uses its own palette and fonts"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".lavish/site-overhaul-directions.html"
+        ],
+        "createdAt": "2026-10-27T00:52:34.750Z",
+        "reason": "Claude: gitignored decision page; user asked to explore fresh directions outside the current system, so each mock uses its own palette and fonts"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          ".lavish/site-overhaul-directions.html"
+        ],
+        "createdAt": "2026-10-27T00:52:34.869Z",
+        "reason": "Claude: gitignored decision page; user asked to explore fresh directions outside the current system, so each mock uses its own palette and fonts"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          ".lavish/site-overhaul-directions.html"
+        ],
+        "createdAt": "2026-10-27T00:52:34.993Z",
+        "reason": "Claude: gitignored decision page; user asked to explore fresh directions outside the current system, so each mock uses its own palette and fonts"
+      },
+      {
+        "rule": "marquee",
+        "value": "*",
+        "files": [
+          ".lavish/site-overhaul-directions.html"
+        ],
+        "createdAt": "2026-10-27T00:52:56.454Z",
+        "reason": "Claude: user asked to explore a digital-maximalism direction; the ticker is that mock's signature and duplicates info shown statically; reduced motion stops it"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-10-27T05:03:30.637Z",
+        "reason": "User chose direction B (Swiss minimal, Inter Tight only) on the 2026-10-27 review page; the rule matches the 'Inter' prefix of Inter Tight"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "dist/projects/index.html"
+        ],
+        "createdAt": "2026-10-27T05:03:58.293Z",
+        "reason": "Claude: measured 18px padding on all sides of the quantum demo in the running page; the static scan does not apply Astro scoped styles"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "dist/_astro/*.css"
+        ],
+        "createdAt": "2026-10-27T05:03:58.398Z",
+        "reason": "Compiled copy of src/styles/global.css; Inter Tight is the font of the chosen direction B"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".lavish/home-layouts.html"
+        ],
+        "createdAt": "2026-10-27T05:42:54.101Z",
+        "reason": "Claude: gitignored review page; Public Sans is the review chrome around mocks that use the site's Inter Tight"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "tight\",\"helvetica neue\",arial,sans-serif",
+        "createdAt": "2026-10-27T17:58:24.027Z",
+        "reason": "agent: false positive, the value is the documented Inter Tight stack parsed from a font shorthand in a lavish review page"
       }
     ]
   }

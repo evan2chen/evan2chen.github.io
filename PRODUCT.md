@@ -33,9 +33,10 @@ Name disambiguation is a standing requirement: a well-known math olympiad coach 
 
 ## Capabilities and Constraints
 
-- Launch scope: home page plus one project page with a live interactive demo. Further project pages and demos are added after launch.
+- Three pages: Home (name, Evan's description, study line, photo, resume and contact links, the heatmap as the eye-catcher), Projects (one row per project with media, blurb, stack and links), and Other (one feed of posts, images and non-technical projects, filterable by type, with an empty state until entries exist).
+- Content lives in `src/content` (`site.json`, `projects.json`, `other/*.md`) and is edited in place on the local dev server; Publish commits and pushes, and GitHub Actions deploys.
 - Launch demo: the quantum oracle compiler (CMSC437 boolean-oracle and pebbling labs; the course allows publishing), reimplemented in TypeScript as a reversible gate list, bitwise verification, and Grover over the input amplitudes. Pebbling schedules come from a JavaScript SAT solver in a Web Worker using the Z3 encoding; preset schedules are precomputed by the Python code at build time.
-- Featured projects: Quantum SAT solver, herd, Midboss Mayhem, Valorant Assistant. IMC Prosperity and GEA Bot sit in a compact list.
+- Projects: Quantum SAT solver (inline compiler demo), herd and Midboss Mayhem (videos that autoplay one at a time), Valorant Assistant. Experience, research, IMC Prosperity and GEA Bot are left to the resume PDF.
 - Demos run fully client-side on precomputed data checked into the repo; no backend.
 - Hosting: evan2chen.github.io; a custom domain may come later. No analytics.
 - `main.tex` lives in the site repo; CI builds the public resume PDF without the phone number.
@@ -61,7 +62,7 @@ Absent and not to be fabricated: testimonials, project screenshots, demo dataset
 ## Product Principles
 
 1. Evidence over adjectives: every claim is backed by a number, a decision, or something the visitor can try.
-2. The 10-second skim always succeeds: name, status, and resume are visible without scrolling on any device.
+2. The 10-second skim always succeeds: name, description, and resume are visible without scrolling on any device.
 3. Depth is opt-in: the home page stays brief and project pages carry the detail.
 4. Evan's voice is the content; design serves it and never substitutes for it.
 5. The site stays fast, static, and maintainable by one person.

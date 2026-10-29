@@ -1,64 +1,154 @@
 @font-face {
-  font-family: 'Archivo';
-  src: url('/fonts/archivo-latin-var.woff2') format('woff2');
+  font-family: 'Inter Tight';
+  src: url('/fonts/inter-tight-latin-var.woff2') format('woff2');
   font-weight: 100 900;
-  font-stretch: 62% 125%;
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'STIX Two Text';
-  src: url('/fonts/stix-two-text-latin-var.woff2') format('woff2');
-  font-weight: 400 700;
-  font-display: swap;
+@property --bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --ink {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --ink-2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --rule {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --hair {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --wash {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --acc {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --on-acc {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --h1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --h2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --h3 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --h4 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --h5 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+@property --h6 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
 }
 
 :root {
-  --paper: #f7f8fa;
-  --plate: #ffffff;
-  --ink: #151a2e;
-  --ink-2: #4d566b;
-  --rule: #cfd4de;
-  --r1: #fcefb4;
-  --r2: #fe9f6d;
-  --r3: #de4968;
-  --r4: #8c2981;
-  --r5: #3b0f70;
-  --r6: #150d34;
-  --hot: #de4968;
-  --mark: #fe9f6d;
-  --on-mark: #151a2e;
-  --quiet: #e3dbee;
-  --quiet-2: #d7c3e3;
-  --quiet-line: #6e5a8f;
-  --draft: #fcefb4;
-  --sans: 'Archivo', 'Arial Narrow', sans-serif;
-  --serif: 'STIX Two Text', 'Times New Roman', serif;
-  --gutter: clamp(16px, 4vw, 56px);
+  --bg: #ffffff;
+  --ink: #0a0a0a;
+  --ink-2: #6b6b6b;
+  --rule: #0a0a0a;
+  --hair: #d9d9d9;
+  --wash: #efefef;
+  --acc: #e0301a;
+  --on-acc: #ffffff;
+  --h1: #e8e8e8;
+  --h2: #bdbdbd;
+  --h3: #7d7d7d;
+  --h4: #2b2b2b;
+  --h5: #8f2414;
+  --h6: #e0301a;
+  --font: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --gutter: clamp(16px, 3.75vw, 48px);
+  --edge: clamp(32px, 12vw, 288px);
+  --gap: 16px;
+  --t: 14px;
+  --t-small: 12px;
+  --t-statement: 21px;
   --measure: 66ch;
   color-scheme: light;
 }
 
+:root[data-theme='dark'] {
+  --bg: #0b0b0b;
+  --ink: #f2f2f2;
+  --ink-2: #8f8f8f;
+  --rule: #f2f2f2;
+  --hair: #2a2a2a;
+  --wash: #171717;
+  --acc: #ff5a3c;
+  --on-acc: #0b0b0b;
+  --h1: #1c1c1c;
+  --h2: #3a3a3a;
+  --h3: #6e6e6e;
+  --h4: #c8c8c8;
+  --h5: #e4917a;
+  --h6: #ff5a3c;
+  color-scheme: dark;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #11152a;
-    --plate: #171c33;
-    --ink: #e9ecf3;
-    --ink-2: #a7b0c4;
-    --rule: #2e3554;
-    --r1: #3b0f70;
-    --r2: #8c2981;
-    --r3: #de4968;
-    --r4: #fe9f6d;
-    --r5: #fcd38f;
-    --r6: #fcfdbf;
-    --hot: #fcd38f;
-    --mark: #fe9f6d;
-    --on-mark: #151a2e;
-    --quiet: #4b2a7a;
-    --quiet-2: #8c2981;
-    --quiet-line: #8c6cb8;
-    --draft: #4a2a1f;
+  :root:not([data-theme='light']) {
+    --bg: #0b0b0b;
+    --ink: #f2f2f2;
+    --ink-2: #8f8f8f;
+    --rule: #f2f2f2;
+    --hair: #2a2a2a;
+    --wash: #171717;
+    --acc: #ff5a3c;
+    --on-acc: #0b0b0b;
+    --h1: #1c1c1c;
+    --h2: #3a3a3a;
+    --h3: #6e6e6e;
+    --h4: #c8c8c8;
+    --h5: #e4917a;
+    --h6: #ff5a3c;
     color-scheme: dark;
   }
 }
@@ -71,42 +161,46 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scrollbar-color: var(--rule) transparent;
+  scrollbar-color: var(--hair) transparent;
+  scrollbar-gutter: stable;
+  transition-property: --bg, --ink, --ink-2, --rule, --hair, --wash, --acc, --on-acc, --h1, --h2, --h3, --h4, --h5, --h6;
+  transition-duration: 0.4s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--bg);
   color: var(--ink);
-  font: 400 18px/1.55 var(--serif);
-  font-variant-numeric: lining-nums tabular-nums;
+  font: 400 16px/1.5 var(--font);
+  font-variant-numeric: tabular-nums;
 }
 
 ::selection {
-  background: var(--r1);
-  color: var(--ink);
+  background: var(--acc);
+  color: var(--on-acc);
 }
 
 a {
   color: inherit;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  text-decoration: none;
 }
 
 a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--acc);
   text-decoration-thickness: 2px;
-  text-decoration-color: var(--hot);
+  text-underline-offset: 4px;
 }
 
 :focus-visible {
-  outline: 2px solid var(--hot);
+  outline: 2px solid var(--acc);
   outline-offset: 3px;
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--sans);
   text-wrap: balance;
 }
 
@@ -115,23 +209,94 @@ li {
   text-wrap: pretty;
 }
 
-.draft {
-  color: inherit;
-  background: var(--draft);
-  box-shadow: 0 0 0 0.15em var(--draft);
-  border-radius: 1px;
-}
-
 .wrap {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 var(--gutter);
 }
 
-.label {
-  font-family: var(--sans);
+body.fill {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.display {
+  font-weight: 600;
+  font-size: clamp(64px, 13.75vw, 176px);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  margin: 6px 0 0 -0.045em;
+}
+
+.rule {
+  border: 0;
+  border-top: 1.5px solid var(--rule);
+  margin: 26px 0 0;
+}
+
+.muted {
+  color: var(--ink-2);
+}
+
+.draft {
+  border-bottom: 1.5px dashed var(--acc);
+}
+
+.list {
+  display: grid;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.list > a,
+.list > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--hair);
+  padding-top: 6px;
+}
+
+.list > a:hover {
+  text-decoration: none;
+  color: var(--acc);
+}
+
+.list .solid {
+  background: var(--ink);
+  color: var(--bg);
+  border: 0;
+  padding: 10px 12px;
+}
+
+.list .solid:hover {
+  background: var(--acc);
+  color: var(--on-acc);
+}
+
+.facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
   font-size: 14px;
-  line-height: 1.4;
+}
+
+.facts dt,
+.facts dd {
+  margin: 0;
+  padding: 7px 0;
+  border-top: 1px solid var(--hair);
+}
+
+.facts dt {
   color: var(--ink-2);
 }
 
@@ -140,14 +305,38 @@ li {
   left: var(--gutter);
   top: -100px;
   background: var(--ink);
-  color: var(--paper);
+  color: var(--bg);
   padding: 8px 12px;
-  font-family: var(--sans);
   z-index: 10;
 }
 
 .skip:focus {
   top: 8px;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --edge: 32px;
+  }
+}
+
+html[data-arrive='forward'] {
+  --dir: 1;
+}
+
+html[data-arrive='back'] {
+  --dir: -1;
+}
+
+html[data-arrive] main > * {
+  animation: page-in 0.44s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--dir) * min(40px, var(--gutter))));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -161,13 +350,10 @@ li {
 
 @media print {
   :root {
-    --paper: #fff;
-    --plate: #fff;
+    --bg: #fff;
+    --ink: #000;
   }
   .no-print {
     display: none !important;
-  }
-  a {
-    text-decoration: none;
   }
 }

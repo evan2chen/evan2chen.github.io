@@ -1,0 +1,176 @@
+---
+import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
+import Media from '../components/Media.astro';
+import LinkList from '../components/LinkList.astro';
+import { edit, projects, site } from '../lib/content';
+---
+
+<Base page="projects" title={`Projects - ${site.name}`}>
+  <main id="main" class="wrap">
+    <h1 class="display">Projects</h1>
+    <hr class="rule" />
+    <ol class="rows" {...edit('add', 'projects', { label: '+ Project' })}>
+      {
+        projects.map((project, i) => (
+          <li class="row grid" id={project.id} {...edit('item', `projects:${project.id}`, { move: 'true' })}>
+            <span class="index">{String(i + 1).padStart(2, '0')}</span>
+            <div class="media">
+              <Media media={project.media} address={`projects:${project.id}:media`} title={project.title} />
+            </div>
+            <div class="text">
+              <h2 {...edit('text', `projects:${project.id}:title`)}>{project.title}</h2>
+              <p {...edit('text', `projects:${project.id}:blurb`)}>{project.blurb}</p>
+              <dl class="facts">
+                <dt>Stack</dt>
+                <dd {...edit('text', `projects:${project.id}:stack`)}>{project.stack}</dd>
+              </dl>
+              <LinkList links={project.links} address={`projects:${project.id}:links`} />
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  const videos = [...document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]')];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const ratios = new Map<HTMLVideoElement, number>();
+  const held = new Set<HTMLVideoElement>();
+  const intended = new WeakMap<HTMLVideoElement, boolean>();
+
+  const command = (video: HTMLVideoElement, play: boolean) => {
+    intended.set(video, play);
+    if (play) video.play().catch(() => {});
+    else video.pause();
+  };
+
+  const choose = () => {
+    let best: HTMLVideoElement | null = null;
+    let top = 0.5;
+    for (const [video, ratio] of ratios) {
+      if (ratio >= top && !held.has(video)) {
+        best = video;
+        top = ratio;
+      }
+    }
+    for (const video of videos) {
+      const active = video === best && !reduced.matches;
+      video.closest('.row')?.classList.toggle('active', active);
+      if (active && video.paused) command(video, true);
+      if (!active && !video.paused && !held.has(video)) command(video, false);
+    }
+  };
+
+  for (const video of videos) {
+    video.addEventListener('pause', () => {
+      if (intended.get(video) !== false && (ratios.get(video) ?? 0) > 0) held.add(video);
+    });
+    video.addEventListener('play', () => {
+      if (intended.get(video) === true) return;
+      intended.set(video, true);
+      held.delete(video);
+      for (const other of videos) if (other !== video && !other.paused) command(other, false);
+    });
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const video = entry.target as HTMLVideoElement;
+        ratios.set(video, entry.intersectionRatio);
+        if (entry.intersectionRatio === 0) held.delete(video);
+      }
+      choose();
+    },
+    { threshold: [0, 0.25, 0.5, 0.75, 1] },
+  );
+  videos.forEach((v) => observer.observe(v));
+  reduced.addEventListener('change', choose);
+</script>
+
+<style>
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .row {
+    padding: 20px 0 48px;
+    border-top: 1px solid var(--hair);
+  }
+
+  .row:first-child {
+    border-top: 0;
+  }
+
+  .rows {
+    font-size: var(--t);
+  }
+
+  .index {
+    grid-column: 1 / 2;
+    font-weight: 600;
+    color: var(--ink-2);
+    transition: color 0.2s;
+  }
+
+  .row.active .index {
+    color: var(--acc);
+  }
+
+  .media {
+    grid-column: 2 / 9;
+    min-width: 0;
+  }
+
+  .text {
+    grid-column: 9 / 13;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  h2 {
+    font-weight: 600;
+    font-size: clamp(26px, 2.7vw, 34px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+
+  .text p {
+    margin: 0;
+    font-size: calc(var(--t) * 1.07);
+    line-height: 1.5;
+    max-width: 46ch;
+  }
+
+  .text :global(.facts),
+  .text :global(.list) {
+    font-size: inherit;
+  }
+
+  .text .facts {
+    grid-template-columns: 4.5em minmax(0, 1fr);
+  }
+
+  .text :global(.list) {
+    margin-top: 8px;
+  }
+
+  @media (max-width: 900px) {
+    .index {
+      grid-column: 1 / 13;
+    }
+
+    .media,
+    .text {
+      grid-column: 1 / 13;
+    }
+  }
+</style>

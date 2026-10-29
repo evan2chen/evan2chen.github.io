@@ -1,0 +1,53 @@
+---
+import { site } from '../lib/content';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="wrap no-print">
+  <div class="foot grid">
+    <span class="muted">© {year} {site.name}</span>
+    <nav aria-label="Contact">
+      <a href="/resume.pdf">Resume ↓</a>
+      <a href={`mailto:${site.email}`}>Email →</a>
+      <a href={site.github}>GitHub →</a>
+      <a href={site.linkedin}>LinkedIn →</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  footer {
+    margin-top: clamp(64px, 9vw, 112px);
+    padding-bottom: 28px;
+  }
+
+  .foot {
+    border-top: 1.5px solid var(--rule);
+    padding-top: 16px;
+    font-size: var(--t);
+  }
+
+  .foot > span {
+    grid-column: 1 / 4;
+  }
+
+  nav {
+    grid-column: 7 / 13;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap);
+    font-weight: 500;
+  }
+
+  @media (max-width: 720px) {
+    .foot > span,
+    nav {
+      grid-column: 1 / 13;
+    }
+
+    nav {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

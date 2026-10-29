@@ -1,0 +1,74 @@
+<button type="button" class="theme" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"></path></svg>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const system = matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : system.matches);
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]')) {
+    const sync = () => {
+      const dark = isDark();
+      const label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+      button.dataset.mode = dark ? 'dark' : 'light';
+      button.setAttribute('aria-label', label);
+      button.title = label;
+    };
+    button.hidden = false;
+    sync();
+    system.addEventListener('change', sync);
+    button.addEventListener('click', () => {
+      const next = isDark() ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {}
+      sync();
+    });
+  }
+</script>
+
+<style>
+  .theme {
+    width: calc(var(--t) * 2.5);
+    height: calc(var(--t) * 2.5);
+    display: grid;
+    place-items: center;
+    padding: 0;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--hair);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .theme:hover {
+    color: var(--acc);
+    border-color: var(--ink);
+  }
+
+  .theme[hidden] {
+    display: none;
+  }
+
+  svg {
+    width: 55%;
+    height: 55%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .sun,
+  .theme[data-mode='dark'] .moon {
+    display: none;
+  }
+
+  .theme[data-mode='dark'] .sun {
+    display: block;
+  }
+</style>

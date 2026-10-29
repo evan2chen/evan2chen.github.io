@@ -1,0 +1,109 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { pages, site, type Page } from '../lib/content';
+
+interface Props {
+  current?: Page;
+}
+
+const { current } = Astro.props;
+const currentIndex = pages.findIndex((p) => p.id === current);
+---
+
+<header class="top grid no-print">
+  <a class="who" href="/">{site.name}</a>
+  <nav aria-label="Pages">
+    {
+      pages.map((p, i) => (
+        <a href={p.href} aria-current={p.id === current ? 'page' : undefined}>
+          <i>0{i + 1}</i>
+          {p.label}
+        </a>
+      ))
+    }
+    {currentIndex >= 0 && <span class="mark" style={`--i: ${currentIndex}`} aria-hidden="true" />}
+  </nav>
+  <div class="toggle"><ThemeToggle /></div>
+</header>
+
+<style>
+  .top {
+    padding: 22px var(--edge) 18px;
+    font-size: var(--t);
+    align-items: center;
+  }
+
+  .who {
+    grid-column: 1 / 4;
+    font-weight: 700;
+  }
+
+  .toggle {
+    grid-column: 12 / 13;
+    justify-self: end;
+    display: flex;
+  }
+
+  nav {
+    grid-column: 7 / 12;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+    position: relative;
+  }
+
+  nav a {
+    font-weight: 500;
+  }
+
+  nav a[aria-current='page']:hover {
+    text-decoration: none;
+  }
+
+  .mark {
+    --col: calc((100% - 2 * var(--gap)) / 3);
+    position: absolute;
+    left: calc(var(--i) * (var(--col) + var(--gap)));
+    bottom: -6px;
+    width: var(--col);
+    height: 2px;
+    background: var(--acc);
+  }
+
+  :global(html[data-arrive]) .mark {
+    animation: mark-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  @keyframes mark-in {
+    from {
+      transform: translateX(calc(var(--mark-from) * (100% + var(--gap))));
+    }
+  }
+
+  nav i {
+    font-style: normal;
+    color: var(--ink-2);
+    margin-right: 0.5em;
+  }
+
+  nav a[aria-current='page'],
+  nav a[aria-current='page'] i {
+    color: var(--acc);
+  }
+
+  @media (max-width: 720px) {
+    .who {
+      grid-column: 1 / 8;
+    }
+
+    .toggle {
+      grid-column: 8 / 13;
+      grid-row: 1;
+    }
+
+    nav {
+      grid-column: 1 / 13;
+      grid-row: 2;
+    }
+  }
+</style>

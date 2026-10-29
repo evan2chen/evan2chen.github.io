@@ -1,0 +1,50 @@
+---
+import QuantumDemo from './QuantumDemo.astro';
+import { edit, type Media } from '../lib/content';
+
+interface Props {
+  media: Media;
+  address: string;
+  title: string;
+}
+
+const { media, address, title } = Astro.props;
+const videoType = (src: string) => (src.endsWith('.webm') ? 'video/webm' : 'video/mp4');
+---
+
+<div class="media" {...edit('media', address, { accept: media.kind === 'demo' ? 'none' : 'image/*,video/*' })}>
+  {
+    media.kind === 'video' ? (
+      <video poster={media.poster || undefined} aria-label={media.alt || `${title} recording`} muted loop playsinline controls preload="metadata" data-autoplay>
+        <source src={media.src} type={videoType(media.src)} />
+      </video>
+    ) : media.kind === 'image' ? (
+      <img src={media.src} alt={media.alt || title} loading="lazy" decoding="async" />
+    ) : media.kind === 'demo' ? (
+      <QuantumDemo />
+    ) : (
+      <div class="still muted" {...edit('text', `${address}.note`)}>
+        {media.note || 'Media coming soon'}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .media video,
+  .media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #121212;
+  }
+
+  .still {
+    aspect-ratio: 16 / 9;
+    background: var(--wash);
+    display: grid;
+    place-items: center;
+    font-size: var(--t);
+  }
+</style>

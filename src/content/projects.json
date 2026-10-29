@@ -1,0 +1,74 @@
+[
+  {
+    "id": "quantum",
+    "title": "Quantum Ancilla Optimizer",
+    "blurb": "Compiles arbitrary boolean expressions into Grover oracles by walking the AST. Then, solves the Reversible Pebble Game using the Z3 Solver to minimizes ancilla qubit count.",
+    "stack": "Python · Qiskit · Z3",
+    "links": [
+      {
+        "label": "Write-up",
+        "href": ""
+      }
+    ],
+    "media": {
+      "kind": "demo",
+      "demo": "quantum"
+    }
+  },
+  {
+    "id": "herd",
+    "title": "herd",
+    "blurb": "Routes coding subagents across Claude, Codex and Cursor by tier and live quota, each in its own git worktree. A rate-limited task fails over to another provider in the same worktree.",
+    "stack": "Node.js · git · Herdr",
+    "links": [
+      {
+        "label": "GitHub",
+        "href": ""
+      },
+      {
+        "label": "Write-up",
+        "href": ""
+      }
+    ],
+    "media": {
+      "kind": "none",
+      "note": "Recording coming soon"
+    }
+  },
+  {
+    "id": "midboss",
+    "title": "Midboss Mayhem",
+    "blurb": "A round-based 6v6 Deadlock mode fought in the midboss pit, built as a Deadworks plugin around a phase machine, with self-test suites and a Loadout Builder for hero builds.",
+    "stack": "C# · .NET · Deadworks",
+    "links": [
+      {
+        "label": "GitHub",
+        "href": ""
+      },
+      {
+        "label": "Write-up",
+        "href": ""
+      }
+    ],
+    "media": {
+      "kind": "none",
+      "note": "Recording coming soon"
+    }
+  },
+  {
+    "id": "valorant",
+    "title": "Valorant Assistant",
+    "blurb": "Positioning advice from safe zones mapped over 10K ranked matches. A Redis hot-path cache in front of MongoDB holds p95 latency under 100 ms over 1.1M match points.",
+    "stack": "Python · Redis · MongoDB · AWS EC2",
+    "links": [
+      {
+        "label": "Write-up",
+        "href": ""
+      }
+    ],
+    "media": {
+      "kind": "none",
+      "note": "Screenshot coming soon"
+    }
+  }
+]

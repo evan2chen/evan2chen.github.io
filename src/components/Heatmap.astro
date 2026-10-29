@@ -1,0 +1,175 @@
+---
+import { seeded } from '../lib/histogram';
+import { rangeLabel } from '../lib/heatmap';
+
+const cols = 48;
+const rows = 27;
+const hist = seeded(cols, rows);
+const cells = [];
+for (let y = 0; y < rows; y++) {
+  for (let x = 0; x < cols; x++) {
+    const level = hist.level(hist.bins[y * cols + x]);
+    if (level) cells.push({ x, y, level });
+  }
+}
+---
+
+<figure class="heatmap" id="heatmap" aria-labelledby="heatmap-caption">
+  <div class="field">
+    <svg class="heatmap-fallback" viewBox={`0 0 ${cols} ${rows}`} preserveAspectRatio="xMinYMin slice" role="img" aria-label="Heatmap of synthetic sample points in four clusters">
+      {cells.map((c) => <rect x={c.x} y={c.y} width="0.92" height="0.92" class={`l${c.level}`} />)}
+    </svg>
+    <canvas hidden tabindex="0" aria-label="Interactive heatmap. Move the pointer over it, or use the arrow keys and Enter, to add samples." aria-describedby="heatmap-readout"></canvas>
+  </div>
+  <figcaption class="legend">
+    <div class="key" aria-label="Color key: samples per bin, in six steps from zero to the current maximum">
+      <span>Samples per bin</span>
+      <ol>
+        {
+          hist.steps().map((s, i) => (
+            <li>
+              <span class={`swatch k${i + 1}`} aria-hidden="true" />
+              <span class="key-range">{rangeLabel(s)}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+    <span id="heatmap-caption">Your cursor, binned as you move: the 2D binning behind Valorant Assistant's heatmaps. Seeded with synthetic points.</span>
+    <span class="row">
+      <span class="heatmap-readout" id="heatmap-readout" aria-live="polite">{hist.total.toLocaleString('en-US')} samples.</span>
+      <button type="button" data-action="reset" class="no-print">Reset</button>
+    </span>
+  </figcaption>
+</figure>
+
+<script>
+  import { initHeatmap } from '../lib/heatmap';
+
+  const root = document.getElementById('heatmap');
+  if (root) initHeatmap(root);
+</script>
+
+<style>
+  .heatmap {
+    position: relative;
+    margin: 0;
+    min-height: 0;
+  }
+
+  .field {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .field > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .field > [hidden] {
+    display: none;
+  }
+
+  canvas {
+    cursor: crosshair;
+  }
+
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .heatmap-fallback {
+      animation: heatmap-fallback-late 0s 1.5s both;
+    }
+  }
+
+  @keyframes heatmap-fallback-late {
+    from {
+      visibility: hidden;
+    }
+  }
+
+  .l1,
+  .k1 { fill: var(--h1); background: var(--h1); }
+  .l2,
+  .k2 { fill: var(--h2); background: var(--h2); }
+  .l3,
+  .k3 { fill: var(--h3); background: var(--h3); }
+  .l4,
+  .k4 { fill: var(--h4); background: var(--h4); }
+  .l5,
+  .k5 { fill: var(--h5); background: var(--h5); }
+  .l6,
+  .k6 { fill: var(--h6); background: var(--h6); }
+
+  .legend {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: grid;
+    gap: 0.5em;
+    max-width: 30em;
+    padding: 1em 1.4em var(--gutter) 0;
+    background: var(--bg);
+    color: var(--ink-2);
+    font-size: var(--t-small);
+    line-height: 1.45;
+  }
+
+  .key {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.8em;
+    flex-wrap: wrap;
+  }
+
+  .key ol {
+    list-style: none;
+    display: flex;
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .key li {
+    display: grid;
+    justify-items: center;
+    gap: 3px;
+    min-width: 3.4em;
+  }
+
+  .swatch {
+    display: block;
+    width: 100%;
+    height: 0.6em;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+  }
+
+  .heatmap-readout {
+    color: var(--ink);
+  }
+
+  button {
+    font: 500 1em/1 var(--font);
+    color: var(--ink-2);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  button:hover {
+    color: var(--ink);
+  }
+
+  .heatmap:not([data-live]) button {
+    display: none;
+  }
+</style>

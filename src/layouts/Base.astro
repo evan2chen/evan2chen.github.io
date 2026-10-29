@@ -1,14 +1,18 @@
 ---
 import '../styles/global.css';
-import { person, site } from '../data/site';
+import Header from '../components/Header.astro';
+import { pages, site, type Page } from '../lib/content';
 
 interface Props {
   title?: string;
   description?: string;
+  page?: Page;
+  fill?: boolean;
 }
 
-const { title = site.title, description = site.description } = Astro.props;
+const { title = site.title, description = site.metaDescription, page, fill = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const navHrefs = pages.map((p) => p.href);
 ---
 
 <!doctype html>
@@ -18,21 +22,42 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content={person.name} />
+    <meta name="author" content={site.name} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#11152a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0b0b" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/stix-two-text-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <script is:inline define:vars={{ navHrefs }}>
+      const section = (path) =>
+        navHrefs.reduce((best, href, i) => (path.startsWith(href) && href.length > navHrefs[best].length ? i : best), 0);
+      const rank = (path) => section(path) * 10 + path.split('/').filter(Boolean).length;
+      try {
+        const entry = performance.getEntriesByType('navigation')[0];
+        const from = window.navigation?.activation?.from?.url ?? (entry?.type === 'navigate' ? document.referrer : '');
+        const source = from && new URL(from);
+        if (source && source.origin === location.origin && rank(source.pathname) !== rank(location.pathname)) {
+          const root = document.documentElement;
+          root.dataset.arrive = rank(location.pathname) > rank(source.pathname) ? 'forward' : 'back';
+          root.style.setProperty('--mark-from', section(source.pathname) - section(location.pathname));
+        }
+      } catch {}
+    </script>
+    <link rel="preload" href="/fonts/inter-tight-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body>
+  <body class:list={[{ fill }]}>
     <a class="skip" href="#main">Skip to content</a>
+    <Header current={page} />
     <slot />
   </body>
 </html>

@@ -1,0 +1,29 @@
+---
+import { edit, type Link } from '../lib/content';
+
+interface Props {
+  links: Link[];
+  address: string;
+}
+
+const { links, address } = Astro.props;
+---
+
+<div class="list" {...edit('append', `${address}`, { value: JSON.stringify({ label: 'Link', href: '' }), label: '+ Link' })}>
+  {
+    links.map((link, i) => {
+      const at = `${address}.${i}`;
+      return link.href ? (
+        <a href={link.href} {...edit('item', at)} {...edit('href', `${at}.href`)}>
+          <span {...edit('text', `${at}.label`)}>{link.label}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      ) : (
+        <span {...edit('item', at)} {...edit('href', `${at}.href`)}>
+          <span class="draft" {...edit('text', `${at}.label`)}>{link.label}</span>
+          <span aria-hidden="true">→</span>
+        </span>
+      );
+    })
+  }
+</div>

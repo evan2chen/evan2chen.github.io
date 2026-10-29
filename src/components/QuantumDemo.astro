@@ -1,0 +1,167 @@
+---
+import { circuitSvg, compile, parse, presets, statsHtml } from '../lib/oracle';
+
+const initial = presets[0];
+const oracle = compile(parse(initial));
+---
+
+<div class="quantum" data-quantum>
+  <div class="input">
+    <label for="quantum-expression">f(a…e) =</label>
+    <input id="quantum-expression" type="text" value={initial} spellcheck="false" autocomplete="off" aria-describedby="quantum-help quantum-stats" />
+  </div>
+  <div class="presets" role="group" aria-label="Example expressions">
+    {presets.map((p) => <button type="button" data-preset={p}>{p}</button>)}
+  </div>
+  <div class="circuit" set:html={circuitSvg(oracle)} />
+  <div class="out">
+    <span id="quantum-stats" aria-live="polite" set:html={statsHtml(oracle)} />
+    <span id="quantum-help">● control ○ negated control ⊕ target · faded gates uncompute</span>
+  </div>
+</div>
+
+<script>
+  import { circuitSvg, compile, parse, statsHtml } from '../lib/oracle';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-quantum]')) {
+    const input = root.querySelector('input')!;
+    const circuit = root.querySelector<HTMLElement>('.circuit')!;
+    const stats = root.querySelector<HTMLElement>('#quantum-stats')!;
+    const update = () => {
+      try {
+        const oracle = compile(parse(input.value));
+        circuit.innerHTML = circuitSvg(oracle);
+        stats.innerHTML = statsHtml(oracle);
+        input.removeAttribute('aria-invalid');
+      } catch (err) {
+        stats.innerHTML = `<span class="error">${(err as Error).message}</span>`;
+        input.setAttribute('aria-invalid', 'true');
+      }
+    };
+    input.addEventListener('input', update);
+    for (const button of root.querySelectorAll<HTMLButtonElement>('[data-preset]')) {
+      button.addEventListener('click', () => {
+        input.value = button.dataset.preset!;
+        update();
+      });
+    }
+  }
+</script>
+
+<style>
+  .quantum {
+    aspect-ratio: 16 / 9;
+    outline: 1px solid var(--hair);
+    padding: clamp(12px, 1.6vw, 18px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .input {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  label {
+    font-size: var(--t-small);
+    color: var(--ink-2);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    font: 500 clamp(17px, 1.8vw, 22px) var(--font);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    border-bottom: 1.5px solid var(--ink);
+    border-radius: 0;
+    padding: 4px 0;
+  }
+
+  input:focus-visible {
+    outline: none;
+    border-bottom-color: var(--acc);
+  }
+
+  input[aria-invalid='true'] {
+    border-bottom-color: var(--acc);
+  }
+
+  .presets {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .presets button {
+    font: 500 var(--t-small) var(--font);
+    background: none;
+    color: var(--ink-2);
+    border: 1px solid var(--hair);
+    padding: 5px 9px;
+    min-height: 28px;
+    cursor: pointer;
+  }
+
+  .presets button:hover {
+    color: var(--ink);
+    border-color: var(--ink-2);
+  }
+
+  .circuit {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .circuit :global(svg) {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .circuit :global(.q-label) { font: 500 11px var(--font); fill: var(--ink-2); }
+  .circuit :global(.q-wire) { stroke: var(--ink-2); stroke-width: 0.8; }
+  .circuit :global(.q-gate) { stroke: var(--ink); stroke-width: 1.2; }
+  .circuit :global(.q-control) { fill: var(--ink); }
+  .circuit :global(.q-control.negated),
+  .circuit :global(.q-target) { fill: var(--bg); stroke: var(--ink); stroke-width: 1.2; }
+  .circuit :global(.q-phase) { fill: var(--acc); }
+  .circuit :global(.q-phase.negated) { fill: var(--bg); stroke: var(--acc); stroke-width: 1.5; }
+  .circuit :global(.q-phase-label) { font: 700 11px var(--font); fill: var(--on-acc); }
+  .circuit :global(.q-phase-label.negated) { fill: var(--acc); }
+  .circuit :global(.q-uncompute) { opacity: 0.35; }
+
+  .out {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    font-size: var(--t-small);
+    color: var(--ink-2);
+  }
+
+  .out :global(b) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .out :global(.error) {
+    color: var(--acc);
+  }
+
+  @media (max-width: 640px) {
+    .quantum {
+      aspect-ratio: auto;
+    }
+
+    .circuit {
+      min-height: 180px;
+    }
+  }
+</style>

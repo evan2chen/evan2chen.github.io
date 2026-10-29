@@ -1,0 +1,15 @@
+{
+  "name": "Evan Chen",
+  "description": "Hi! I'm Evan, I'm currently doing an undergraduate dual degree in CS and Math. My interests include AI engineering, AI safety, statistics, and combinatorics. I'm looking for opportunities to work with ambitious and forward-minded people!",
+  "study": "B.S. Computer Science & Mathematics, University of Maryland (Graduation: May 2027)",
+  "photo": {
+    "src": "/media/website-pfp-mvt34yq9.jpg",
+    "alt": "Evan Chen"
+  },
+  "email": "evan2.fm@gmail.com",
+  "github": "https://github.com/evan2chen",
+  "linkedin": "https://www.linkedin.com/in/evan--chen/",
+  "otherEmpty": "Nothing here yet.",
+  "title": "Evan Chen - Software Engineer, University of Maryland",
+  "metaDescription": "Evan Chen, software engineer and University of Maryland CS & Math student graduating May 2027. Two Amazon SWE internships and projects in quantum compilation, agent orchestration and game systems."
+}
