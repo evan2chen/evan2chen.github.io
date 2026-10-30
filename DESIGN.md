@@ -126,7 +126,7 @@ Projects and Other share a 1280px sheet: a header row, a page title set enormous
 
 **Key Characteristics:**
 - One typeface, Inter Tight, self-hosted as a variable font.
-- 12 columns with a 16px gap inside a 1280px sheet; on Home the grid spans the window inside the edge margin. Home's content text runs 20% larger than elsewhere (17px body, 25px description, 14px labels); the header is the same on every page.
+- 12 columns with a 16px gap inside a 1280px sheet; on Home the grid spans the window inside the edge margin. Home's content text runs 20% larger than elsewhere (17px body, 14px labels), and its description scales with the screen (clamp(16px, min(1.45vw, 2.4svh), 25px)) so Home fits one screen; the header is the same on every page.
 - A 1.5px rule under every page title and above the footer; 1px hairlines between rows.
 - Signal red only for the current page, pressed or hot states, the hottest heatmap bins, the quantum phase gate, and placeholder underlines.
 - Light and dark are full counterparts; visitors switch with the sun/crescent button and the choice persists.
@@ -156,7 +156,7 @@ Projects and Other share a 1280px sheet: a header row, a page title set enormous
 
 **Font:** Inter Tight (variable, 100-900), fallback Helvetica Neue, Arial. Editor code fields use the system monospace.
 
-- **Name** (600, clamp(64px, 10vw, 176px), line-height 0.86, -0.055em): the name on Home, stacked on two lines.
+- **Name** (600, clamp(64px, min(10vw, 14svh), 176px), line-height 0.86, -0.055em): the name on Home, on one line across the page.
 - **Display** (600, clamp(64px, 11vw, 280px)): the page titles Projects, Other, 404. Both are optically pulled left by 0.045em.
 - **Entry title** (600, clamp(40px, 7vw, 96px)): Other entry pages.
 - **Headline** (600, 26-34px, -0.03em): project names, feed titles.
@@ -170,7 +170,7 @@ All numbers are tabular.
 
 The sheet is max 1280px with a fluid gutter (16-48px). The header row is identical on every page: it spans the window inside the edge margin (`--edge`: 12vw up to 288px, 32px on phones), with name in columns 1-3, numbered nav in 7-11, and the theme button at the right edge of 12. Home (`body.fill`) uses the same edge margin on the sides of its content and 12% of the screen height (capped at the edge margin) below it, so it always fits one screen.
 
-- **Home ("edge to edge"):** the page is exactly one screen tall. Columns 1-4 run top to bottom: the stacked name, then photo (3:4) beside the description and Study fact, then the link list pinned to the bottom. Columns 5-12 are the heatmap, ending at the margin on the right and bottom, with its key in a notch cut from the field's bottom-left corner. Below 900px it stacks: name, full-bleed heatmap with the key under it, photo and description, links.
+- **Home ("name across"):** the page is exactly one screen tall, from 1280 × 720 up. The name runs across all 12 columns as a masthead. Below it, columns 1-4 hold the description at full column width, then the photo (3:4) beside the Study fact, then the link list pinned to the bottom, with GitHub and LinkedIn sharing a row. Columns 5-12 are the heatmap, starting under the name and ending at the margin on the right and bottom, with its key in a notch cut from the field's bottom-left corner. Vertical spacing is min(0.55 × gutter, 2.4svh), so short screens tighten instead of overflowing. Below 900px it stacks: name, full-bleed heatmap with the key under it, description, photo and Study, links.
 - **Projects and Other:** the display title, then a 1.5px rule, then the content below.
 - **Projects:** one row per project: index in column 1, media 2-8 at 16:9, text 9-12. Rows are separated by hairlines. Below 900px rows stack.
 - **Other:** filter row, then a feed: date 1-2, type 3, content 4-10, action 11-12.

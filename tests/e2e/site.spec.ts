@@ -206,7 +206,7 @@ test('the heatmap works from the keyboard', async ({ page }) => {
   await expect.poll(() => sampleCount(page)).toBe(before + 12);
 });
 
-for (const [width, height] of [[1440, 900], [2560, 1440]]) {
+for (const [width, height] of [[1280, 720], [1366, 768], [1440, 900], [1536, 864], [1920, 1080], [2560, 1440]]) {
   test(`home fills a ${width} x ${height} screen inside a margin, with square heatmap bins`, async ({ page }) => {
     await page.setViewportSize({ width, height });
     await page.goto('/');
