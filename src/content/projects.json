@@ -31,8 +31,9 @@
       }
     ],
     "media": {
-      "kind": "none",
-      "note": "Recording coming soon"
+      "kind": "video",
+      "src": "/media/herd-demo.mp4",
+      "alt": ""
     }
   },
   {
@@ -51,8 +52,10 @@
       }
     ],
     "media": {
-      "kind": "none",
-      "note": "Recording coming soon"
+      "kind": "video",
+      "src": "/media/midbossmayhem-demo.mp4",
+      "alt": "",
+      "poster": "/media/midbossmayhem-demo-poster.jpg"
     }
   },
   {
