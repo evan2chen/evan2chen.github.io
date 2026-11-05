@@ -198,7 +198,7 @@ function createStore(root: string) {
         await mkdir(otherDir, { recursive: true });
         let id = `${type}-${today()}`;
         for (let n = 2; existsSync(entryPath(id)); n++) id = `${type}-${today()}-${n}`;
-        await writeEntry(id, { title: 'Untitled', date: today(), type, excerpt: '', images: [], body: '' });
+        await writeEntry(id, { title: 'Untitled', date: today(), type, excerpt: '', media: [], body: '' });
         return id;
       }
       throw new HttpError(400, 'Create a project, or an other entry of type post, image or project');

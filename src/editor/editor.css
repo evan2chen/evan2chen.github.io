@@ -63,7 +63,7 @@
   outline-style: solid;
 }
 
-[data-editing] :is([data-edit-href], [data-edit-media], [data-edit-body], [data-edit-images], [data-edit-item]) {
+[data-editing] :is([data-edit-href], [data-edit-media], [data-edit-body], [data-edit-gallery], [data-edit-item]) {
   position: relative;
 }
 

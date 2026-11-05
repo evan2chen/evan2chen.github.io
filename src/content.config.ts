@@ -10,7 +10,7 @@ export const collections = {
       date: z.coerce.date(),
       type: z.enum(['post', 'image', 'project']),
       excerpt: z.string().default(''),
-      images: z.array(z.object({ src: z.string(), alt: z.string().default('') })).default([]),
+      media: z.array(z.object({ kind: z.enum(['image', 'video']), src: z.string(), alt: z.string().default('') })).default([]),
     }),
   }),
 };

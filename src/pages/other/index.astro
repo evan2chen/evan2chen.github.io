@@ -2,7 +2,8 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Footer from '../../components/Footer.astro';
-import { edit, entryLabels, isoDate, monthYear, site, type EntryType } from '../../lib/content';
+import Still from '../../components/Still.astro';
+import { edit, entryLabels, isoDate, mediaCount, monthYear, site, type EntryMedia, type EntryType } from '../../lib/content';
 
 const entries = (await getCollection('other')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const filters: ['all' | EntryType, string][] = [
@@ -12,7 +13,7 @@ const filters: ['all' | EntryType, string][] = [
   ['project', 'Projects'],
 ];
 const count = (type: 'all' | EntryType) => (type === 'all' ? entries.length : entries.filter((e) => e.data.type === type).length);
-const action = (type: EntryType, images: number) => (type === 'post' ? 'Read' : type === 'image' ? `${images} photo${images === 1 ? '' : 's'}` : 'View');
+const action = (type: EntryType, media: EntryMedia[]) => (type === 'post' ? 'Read' : type === 'image' ? mediaCount(media) : 'View');
 ---
 
 <Base page="other" title={`Other - ${site.name}`}>
@@ -33,7 +34,8 @@ const action = (type: EntryType, images: number) => (type === 'post' ? 'Read' : 
             </div>
             <ol class="feed">
               {entries.map((entry) => {
-                const { title, date, type, excerpt, images } = entry.data;
+                const { title, date, type, excerpt, media } = entry.data;
+                const cover = media[0];
                 const href = `/other/${entry.id}/`;
                 return (
                   <li class="grid" data-type={type} {...edit('item', `other:${entry.id}`)}>
@@ -43,19 +45,19 @@ const action = (type: EntryType, images: number) => (type === 'post' ? 'Read' : 
                       <h2><a href={href}>{title}</a></h2>
                       {type === 'image' ? (
                         <div class="thumbs">
-                          {images.slice(0, 3).map((img) => <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />)}
+                          {media.slice(0, 3).map((item) => <Still item={item} />)}
                         </div>
-                      ) : type === 'project' && images[0] ? (
+                      ) : type === 'project' && cover ? (
                         <div class="project">
                           {excerpt && <p>{excerpt}</p>}
-                          <img src={images[0].src} alt={images[0].alt} loading="lazy" decoding="async" />
+                          <Still item={cover} />
                         </div>
                       ) : (
                         excerpt && <p>{excerpt}</p>
                       )}
                     </div>
-                    <a class="go" href={href} aria-label={`${action(type, images.length)}: ${title}`}>
-                      {action(type, images.length)} →
+                    <a class="go" href={href} aria-label={`${action(type, media)}: ${title}`}>
+                      {action(type, media)} →
                     </a>
                   </li>
                 );
@@ -182,8 +184,8 @@ const action = (type: EntryType, images: number) => (type === 'post' ? 'Read' : 
     margin-top: 12px;
   }
 
-  .thumbs img,
-  .project img {
+  .thumbs :global(.still),
+  .project :global(.still) {
     display: block;
     width: 100%;
     aspect-ratio: 4 / 3;
