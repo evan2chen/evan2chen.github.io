@@ -16,7 +16,6 @@ colors:
   h4: "#2b2b2b"
   h5: "#8f2414"
   h6: "#e0301a"
-  video-ground: "#121212"
   bg-dark: "#0b0b0b"
   ink-dark: "#f2f2f2"
   ink-2-dark: "#8f8f8f"
@@ -34,7 +33,7 @@ colors:
 typography:
   name:
     fontFamily: "Inter Tight, Helvetica Neue, Arial, sans-serif"
-    fontSize: "clamp(64px, 10vw, 176px)"
+    fontSize: "clamp(64px, min(10vw, 14svh), 176px)"
     fontWeight: 600
     lineHeight: 0.86
     letterSpacing: "-0.055em"
@@ -64,7 +63,7 @@ typography:
     letterSpacing: "-0.01em"
   body:
     fontFamily: "Inter Tight, Helvetica Neue, Arial, sans-serif"
-    fontSize: "15px"
+    fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.5
   prose:
@@ -145,7 +144,7 @@ Projects and Other share a 1280px sheet: a header row, a page title set enormous
 - **rule**: the 1.5px structural rules, matching ink.
 - **hair**: row dividers, plot and demo outlines, preset button borders.
 - **wash**: placeholder and code grounds.
-- **video-ground**: the fixed near-black behind videos and images while they load, in both themes.
+- **Media ground**: `Media.astro` uses a fixed #121212 behind project videos and images in both themes.
 
 ### Named Rules
 **The One Red Rule.** Red marks state or the single hottest thing; it never decorates.
@@ -157,7 +156,7 @@ Projects and Other share a 1280px sheet: a header row, a page title set enormous
 **Font:** Inter Tight (variable, 100-900), fallback Helvetica Neue, Arial. Editor code fields use the system monospace.
 
 - **Name** (600, clamp(64px, min(10vw, 14svh), 176px), line-height 0.86, -0.055em): the name on Home, on one line across the page.
-- **Display** (600, clamp(64px, 11vw, 280px)): the page titles Projects, Other, 404. Both are optically pulled left by 0.045em.
+- **Display** (600, clamp(64px, 13.75vw, 176px)): the page titles Projects, Other, 404. These and the Home name are optically pulled left by 0.045em.
 - **Entry title** (600, clamp(40px, 7vw, 96px)): Other entry pages.
 - **Headline** (600, 26-34px, -0.03em): project names, feed titles.
 - **Statement** (400, 21px, line-height 1.3): the personal description and entry excerpts.
@@ -189,9 +188,9 @@ The sheet is max 1280px with a fluid gutter (16-48px). The header row is identic
 
 ## Motion
 
-Motion runs on the live page, so links and the heatmap stay usable while it plays. Reduced motion removes all of it.
+Motion runs on the live page, so links and the heatmap stay usable while it plays. Reduced motion disables CSS transitions and animations, skips the heatmap intro on load, and pauses automatic video playback.
 
-- **Page arrival:** coming from another page of the site, the content slides in from the nav direction (from the right going to a higher-numbered page, from the left going back) by up to the gutter, 0.44s, while the nav marker slides over from the previous column, 0.48s, both on `cubic-bezier(0.16, 1, 0.3, 1)`. The head script sets `html[data-arrive]` and `--mark-from`.
+- **Page arrival:** coming from another page of the site, the content slides in from the nav direction (from the right going to a higher-numbered page, from the left going back) by min(40px, gutter), 0.44s, while the nav marker slides over from the previous column, 0.48s, both on `cubic-bezier(0.16, 1, 0.3, 1)`. The head script sets `html[data-arrive]` and `--mark-from`.
 - **Theme change:** every color token is a registered `@property` color, and `html` fades them together over 0.4s.
 - **Heatmap load-in (Ripple):** bins appear in a circular wave from the center of the window, not of the heatmap, reaching the farthest bin at 0.8s. Each bin grows from a point and lands in signal red, then cools to its level over 0.56s. Red here is transient heat and settles before the page is at rest.
 
