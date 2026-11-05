@@ -32,12 +32,21 @@ export const projects = projectsJson as Project[];
 export type EntryType = 'post' | 'image' | 'project';
 export const entryLabels: Record<EntryType, string> = { post: 'Post', image: 'Image', project: 'Project' };
 
-type EditKind = 'text' | 'href' | 'media' | 'item' | 'add' | 'append' | 'body' | 'images';
+type EditKind = 'text' | 'href' | 'media' | 'item' | 'add' | 'append' | 'body' | 'gallery';
 
 export const edit = (kind: EditKind, address: string, extra: Record<string, string> = {}) =>
   import.meta.env.DEV
     ? { [`data-edit-${kind}`]: address, ...Object.fromEntries(Object.entries(extra).map(([k, v]) => [`data-edit-${k}`, v])) }
     : {};
+
+export type EntryMedia = { kind: 'image' | 'video'; src: string; alt: string };
+
+export const mediaCount = (media: EntryMedia[]) =>
+  (['image', 'video'] as const)
+    .map((kind) => [kind, media.filter((m) => m.kind === kind).length] as const)
+    .filter(([, n]) => n > 0)
+    .map(([kind, n]) => `${n} ${kind === 'image' ? 'photo' : 'video'}${n === 1 ? '' : 's'}`)
+    .join(', ') || '0 photos';
 
 export const monthYear = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 export const isoDate = (date: Date) => date.toISOString().slice(0, 10);

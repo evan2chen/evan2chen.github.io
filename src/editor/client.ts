@@ -218,15 +218,15 @@ function wireTools(el: HTMLElement) {
     });
   }
 
-  if (d.editImages) {
-    const address = d.editImages;
-    button(box, '+ Images', 'Add images', async () => {
-      const files = await pick('image/*', true);
+  if (d.editGallery) {
+    const address = d.editGallery;
+    button(box, '+ Media', 'Add photos or videos', async () => {
+      const files = await pick('image/*,video/*', true);
       if (!files.length) return;
-      say(`Uploading ${files.length} image${files.length === 1 ? '' : 's'}…`);
+      say(`Uploading ${files.length} file${files.length === 1 ? '' : 's'}…`);
       guard(async () => {
         const values = [];
-        for (const file of files) values.push({ src: await upload(file), alt: '' });
+        for (const file of files) values.push({ kind: file.type.startsWith('video/') ? 'video' : 'image', src: await upload(file), alt: '' });
         return api('append', { address, values });
       });
     });
@@ -284,7 +284,7 @@ async function goTo(url: string) {
   location.href = url;
 }
 
-const TOOL_SELECTOR = '[data-edit-href],[data-edit-media],[data-edit-body],[data-edit-images],[data-edit-item],[data-edit-append],[data-edit-add]';
+const TOOL_SELECTOR = '[data-edit-href],[data-edit-media],[data-edit-body],[data-edit-gallery],[data-edit-item],[data-edit-append],[data-edit-add]';
 
 function setEditing(on: boolean) {
   root.toggleAttribute('data-editing', on);

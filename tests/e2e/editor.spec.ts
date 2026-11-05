@@ -178,13 +178,19 @@ test('Other entries are created, written in Markdown, illustrated and filtered',
   await page.goto('/other/');
   await page.getByRole('button', { name: 'New image entry' }).click();
   await expect(page).toHaveURL(/\/other\/image-/);
+  const webm = await recordWebm(page);
   await reloadsAfter(page, () =>
-    chooseFiles(page, page.getByRole('button', { name: 'Add images' }), [
+    chooseFiles(page, page.getByRole('button', { name: 'Add photos or videos' }), [
       { name: 'one.png', mimeType: 'image/png', buffer: PNG },
       { name: 'two.png', mimeType: 'image/png', buffer: PNG },
+      { name: 'clip.webm', mimeType: 'video/webm', buffer: webm },
     ]),
   );
   await expect(page.locator('.gallery img')).toHaveCount(2);
+  const clip = page.locator('.gallery video');
+  await expect(clip).toHaveAttribute('src', /^\/media\/clip-.*\.webm$/);
+  await expect.poll(() => clip.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThan(0);
+  expect(existsSync(path.join(site, 'public', (await clip.getAttribute('src'))!))).toBe(true);
 
   await page.goto('/other/');
   await page.getByRole('button', { name: 'Edit', exact: true }).click();
@@ -193,6 +199,8 @@ test('Other entries are created, written in Markdown, illustrated and filtered',
   await page.getByRole('button', { name: /^Images/ }).click();
   await expect(feed.filter({ visible: true })).toHaveCount(1);
   await expect(feed.filter({ visible: true }).locator('.thumbs img')).toHaveCount(2);
+  await expect(feed.filter({ visible: true }).locator('.thumbs video')).toHaveCount(1);
+  await expect(feed.filter({ visible: true }).getByRole('link', { name: /^2 photos, 1 video/ })).toBeVisible();
   await page.getByRole('button', { name: /^Posts/ }).click();
   await expect(feed.filter({ visible: true }).getByRole('heading')).toHaveText('First post');
 });

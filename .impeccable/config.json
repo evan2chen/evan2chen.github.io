@@ -152,6 +152,24 @@
         "value": "tight\",\"helvetica neue\",arial,sans-serif",
         "createdAt": "2026-10-27T17:58:24.027Z",
         "reason": "agent: false positive, the value is the documented Inter Tight stack parsed from a font shorthand in a lavish review page"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".lavish/agent-cursors.html"
+        ],
+        "createdAt": "2026-11-04T18:59:01.512Z",
+        "reason": "Claude: prototype mirrors the live site's display name (line-height 0.86) per DESIGN.md"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".lavish/agent-cursors.html"
+        ],
+        "createdAt": "2026-11-04T18:59:01.634Z",
+        "reason": "Claude: compact multiplayer-style cursor name tags and wireframe labels in a throwaway review prototype"
       }
     ]
   }

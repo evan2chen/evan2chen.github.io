@@ -1,0 +1,17 @@
+---
+import type { EntryMedia } from '../lib/content';
+
+interface Props {
+  item: EntryMedia;
+}
+
+const { item } = Astro.props;
+---
+
+{
+  item.kind === 'video' ? (
+    <video class="still" src={`${item.src}#t=0.1`} aria-label={item.alt || undefined} muted playsinline preload="metadata" />
+  ) : (
+    <img class="still" src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+  )
+}

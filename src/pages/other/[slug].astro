@@ -10,7 +10,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { title, date, type, excerpt, images } = entry.data;
+const { title, date, type, excerpt, media } = entry.data;
 const { Content } = await render(entry);
 const at = `other:${entry.id}`;
 ---
@@ -39,14 +39,18 @@ const at = `other:${entry.id}`;
           </div>
         </div>
         {
-          (images.length > 0 || import.meta.env.DEV) && (
-            <div class="gallery" {...edit('images', `${at}:images`)}>
-              {images.map((img, i) => (
-                <figure {...edit('item', `${at}:images.${i}`)}>
-                  <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
-                  {(img.alt || import.meta.env.DEV) && (
-                    <figcaption class="muted" {...edit('text', `${at}:images.${i}.alt`, { raw: img.alt })}>
-                      {img.alt || 'Alt text'}
+          (media.length > 0 || import.meta.env.DEV) && (
+            <div class="gallery" {...edit('gallery', `${at}:media`)}>
+              {media.map((item, i) => (
+                <figure {...edit('item', `${at}:media.${i}`)}>
+                  {item.kind === 'video' ? (
+                    <video src={item.src} aria-label={item.alt || undefined} controls playsinline preload="metadata" />
+                  ) : (
+                    <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+                  )}
+                  {(item.alt || import.meta.env.DEV) && (
+                    <figcaption class="muted" {...edit('text', `${at}:media.${i}.alt`, { raw: item.alt })}>
+                      {item.alt || 'Alt text'}
                     </figcaption>
                   )}
                 </figure>
@@ -118,7 +122,8 @@ const at = `other:${entry.id}`;
     margin: 0;
   }
 
-  figure img {
+  figure img,
+  figure video {
     display: block;
     width: 100%;
     height: auto;

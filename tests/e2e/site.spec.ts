@@ -224,6 +224,10 @@ for (const [width, height] of [[1280, 720], [1366, 768], [1440, 900], [1536, 864
     const resume = (await page.getByRole('link', { name: 'Resume (PDF)' }).boundingBox())!;
     expect(resume.y + resume.height).toBeLessThanOrEqual(height);
     expect(resume.y).toBeGreaterThan(height * 0.6);
+    const photo = (await page.locator('.photo img').boundingBox())!;
+    const about = (await page.locator('.about').boundingBox())!;
+    expect(photo.y + photo.height).toBeCloseTo(about.y + about.height, 0);
+    expect(Math.max(photo.height / about.height, photo.width / (about.width * 0.62))).toBeCloseTo(1, 2);
     const [cols, rows] = (await page.locator('#heatmap-readout').textContent())!.match(/(\d+) × (\d+) bins/)!.slice(1).map(Number);
     const canvas = (await page.locator('#heatmap canvas').boundingBox())!;
     expect(canvas.width / cols / (canvas.height / rows)).toBeCloseTo(1, 1);
