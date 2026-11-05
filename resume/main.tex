@@ -79,6 +79,7 @@
 %-------------------------------------------
 %%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\providecommand{\graduation}{May 2027}
 \newcommand{\phoneline}{}
 \IfFileExists{private.tex}{\input{private.tex}}{}
 
@@ -98,7 +99,7 @@
   \resumeSubHeadingListStart
     \resumeSubheading
       {University of Maryland}{College Park, MD}
-      {B.S., Computer Science \& Mathematics \textnormal{(dual degree) --- GPA: 3.9/4.0}}{Expected May 2027}
+      {B.S., Computer Science \& Mathematics \textnormal{(dual degree) --- GPA: 3.9/4.0}}{Expected \graduation}
       \resumeItemListStart
         \resumeItem{\textbf{Relevant Coursework:} Advanced Data Structures, Algorithm Analysis, Machine Learning,
           Object-Oriented Programming, Functional Programming,
@@ -112,7 +113,7 @@
   \resumeSubHeadingListStart
     \resumeSubheading
       {Amazon}{Seattle, WA}
-      {Software Engineer Intern}{June 1, 2026 -- August 21, 2026}
+      {Software Development Engineer Intern}{June 1, 2026 -- August 21, 2026}
       \resumeItemListStart
         \resumeItem{Boosted researcher productivity by 20\% by exposing 100K+ raw datapoints from SageMaker to a SQL query-able catalog.}
         \resumeItem{Automated 2.5 human work-hours/week by giving AI Agents semantic context through MCP-readable feature descriptions.}
@@ -120,7 +121,7 @@
       \resumeItemListEnd
     \resumeSubheading
       {Amazon}{Seattle, WA}
-      {Software Engineer Intern}{May 27, 2025 -- August 18, 2025}
+      {Software Development Engineer Intern}{May 27, 2025 -- August 18, 2025}
       \resumeItemListStart
         \resumeItem{Enabled the first set of security measures for a high-traffic compliance API by designing a configurable access control layer.}
         \resumeItem{Served 1.2K requests/min at 15ms p90 over a redaction config store
@@ -138,11 +139,11 @@
 Retrieval-Dependent Domains}{}
       {\textit{Accepted to TAE @ NeurIPS 2026} -- James Zhou, \textbf{Evan Chen}, Wei Zou, Jinyuan Jia}{}
       \resumeItemListStart
+        \resumeItem{Illustrated the paper's 4 flagship figures and co-wrote the abstract and intro to communicate key ideas and findings.}
         \resumeItem{Surveyed \& curated evaluation frameworks for 3 datasets to form retrieval-dependent tasks for RAG defense benchmarking.}
         \resumeItem{Quantified retrieval-dependence by comparing RAG and no-RAG accuracy to select datasets to be included in the paper.}
         % \resumeItem{Showed poisoning defenses recover 25\% accuracy on retrieval-redundant tasks versus 0\%
         %   on dependent tasks over 6 datasets.}
-        \resumeItem{Illustrated the paper's 3 flagship figures and co-wrote the abstract and intro to communicate key ideas and findings.}
         
          
         
@@ -153,6 +154,32 @@ Retrieval-Dependent Domains}{}
 %-----------PROJECTS-----------
 \section{Projects}
   \resumeSubHeadingListStart
+    \resumeProjectHeading
+    {\textbf{herd} $|$ \emph{Windows-Native Multi-Agent Orchestration in Herdr (Herdr, Node.js, Git)}}{}
+    \resumeItemListStart
+      \resumeItem{Cut each subagent spawn from 8+ orchestrator tool calls to 1 by building a CLI that routes, places, and isolates agents.}
+      \resumeItem{Kept delegated tasks alive through rate limits by failing over across Claude, Codex, and Cursor ranked by live quota.}
+      \resumeItem{Ran up to 6 coding agents in parallel on one repo by isolating each in a scoped Git worktree and merging only verified work.}
+    \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{JobWatcher} $|$ \emph{Job-Tracking CLI \& Web App (Python, TypeScript, React, SQLite)}}{}
+      \resumeItemListStart
+        \resumeItem{Surfaced 3.5K new postings with 0 duplicates over twice-daily cloud runs by diffing 32K upstream listings on stable IDs.}
+        \resumeItem{Migrated to an agent-driven CLI with zero drift on 6,250 listings and 7K lifecycle events by gating changes on 560+ tests.}
+        \resumeItem{Ranked 2.8K postings from 100 companies into must-apply lists by scoring company tier, recency, and title match per profile.}
+        \resumeItem{AI cron job posts to personalized msgs to slack, so saves time and resistent to churn.}
+        \resumeItem{allows dynamic source gathering, maximizes accurcy via source corroboration}
+        \resumeItem{Agent managed CLI, allows application tracking through natural language}
+      \resumeItemListEnd
+
+    % \resumeProjectHeading
+    %   {\textbf{Midboss Mayhem} $|$ \emph{Deadlock Custom Game Mode (C\#, .NET, Node.js)}}{}
+    %   \resumeItemListStart
+    %     \resumeItem{Kept 12-player rounds stable through disconnects by building a C\# phase machine that reconciles players to each phase.}
+    %     \resumeItem{Automated validation with 52 in-game self-tests across 5 suites by isolating round logic into engine-free pure functions.}
+    %     \resumeItem{Authored 43 hero builds from 190+ items by building a Loadout Builder web app that writes the plugin config directly.}
+    %   \resumeItemListEnd
       
     \resumeProjectHeading
       {\textbf{Valorant Assistant} $|$ \emph{Full-Stack Web App (Python, Redis, MongoDB, AWS EC2)}}{}
@@ -186,13 +213,13 @@ Retrieval-Dependent Domains}{}
           order books, P\&L, and arb.}
       \resumeItemListEnd
 
-    \resumeProjectHeading
-      {\textbf{GEA Bot} $|$ \emph{Discord Puzzle Bot (Python, Azure)}}{}
-      \resumeItemListStart    
-      \resumeItem{Created real-time multi-user competitions on 100k+ 2nd-order sequence recognition puzzles using procedural generation.}
-      \resumeItem{Boosted engagement by 67\% with an AI debate competition where users steer LLMs with adversarial prompt engineering.}
-        \resumeItem{Achieved 24/7 bot uptime by deploying changes to Microsoft Azure via a streamlined development-to-production pipeline.}
-      \resumeItemListEnd
+    % \resumeProjectHeading
+    %   {\textbf{GEA Bot} $|$ \emph{Discord Puzzle Bot (Python, Azure)}}{}
+    %   \resumeItemListStart    
+    %   \resumeItem{Created real-time multi-user competitions on 100k+ 2nd-order sequence recognition puzzles using procedural generation.}
+    %   \resumeItem{Boosted engagement by 67\% with an AI debate competition where users steer LLMs with adversarial prompt engineering.}
+    %     \resumeItem{Achieved 24/7 bot uptime by deploying changes to Microsoft Azure via a streamlined development-to-production pipeline.}
+    %   \resumeItemListEnd
 
   \resumeSubHeadingListEnd
 
@@ -204,7 +231,7 @@ Retrieval-Dependent Domains}{}
      \textbf{Libraries \& Frameworks:} Flask, NumPy, Pandas, SciPy, scikit-learn, Matplotlib, Qiskit, React \\[2pt]
      \textbf{Databases \& Infrastructure:} MongoDB, Redis, DynamoDB, PostgreSQL, AWS (EC2, ECS, Lambda, CloudFormation, IAM) \\[2pt]
      \textbf{Developer Tools:} Git, Jupyter, VS Code, Cursor, GitHub Copilot, Claude Code, Docker \\[2pt]
-     \textbf{Spoken Languages:} Fluent in English and Mandarin Chinese
+     \textbf{Spoken Languages:} Fluent in English and Mandarin Chinese \\[2pt]
     }}
  \end{itemize}
 

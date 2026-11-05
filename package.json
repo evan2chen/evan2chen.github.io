@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "resume": "node scripts/build-resume.mjs",
+    "resume:variants": "node scripts/build-resume-variants.mjs",
     "build:site": "astro build",
     "build": "npm run resume && npm run build:site",
     "preview": "astro preview",
