@@ -43,7 +43,7 @@
     }
   },
   {
-    "id": "new-project",
+    "id": "jobwatcher",
     "title": "JobWatcher",
     "blurb": "Agent-oriented customizable job posting and application tracking. This demo shows the dashboard feature.",
     "stack": "Python, SQLite,",
