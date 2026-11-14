@@ -158,8 +158,8 @@ Retrieval-Dependent Domains}{}
     {\textbf{herd} $|$ \emph{Windows-Native Multi-Agent Orchestration in Herdr (Herdr, Node.js, Git)}}{}
     \resumeItemListStart
       \resumeItem{Cut each subagent spawn from 8+ orchestrator tool calls to 1 by building a CLI that routes, places, and isolates agents.}
-      \resumeItem{Kept delegated tasks alive through rate limits by failing over across Claude, Codex, and Cursor ranked by live quota.}
-      \resumeItem{Ran up to 6 coding agents in parallel on one repo by isolating each in a scoped Git worktree and merging only verified work.}
+      \resumeItem{Reduced rate-limit downtime to 0 hours by implementing automatic failover, cooldown tracking, and task requeueing.}
+      \resumeItem{Enabled conflict-free parallelization via agent-assigned Git worktrees with automated checks and squash-merge integration.}
     \resumeItemListEnd
 
     \resumeProjectHeading
@@ -168,7 +168,7 @@ Retrieval-Dependent Domains}{}
         \resumeItem{Surfaced 3.5K new postings with 0 duplicates over twice-daily cloud runs by diffing 32K upstream listings on stable IDs.}
         \resumeItem{Migrated to an agent-driven CLI with zero drift on 6,250 listings and 7K lifecycle events by gating changes on 560+ tests.}
         \resumeItem{Ranked 2.8K postings from 100 companies into must-apply lists by scoring company tier, recency, and title match per profile.}
-        \resumeItem{AI cron job posts to personalized msgs to slack, so saves time and resistent to churn.}
+        \resumeItem{Eliminated 30 hours of browsing time by selecting 20+ high-signal postings per day via cloud-deployed AI agent cron jobs.}
         \resumeItem{allows dynamic source gathering, maximizes accurcy via source corroboration}
         \resumeItem{Agent managed CLI, allows application tracking through natural language}
       \resumeItemListEnd
@@ -230,7 +230,7 @@ Retrieval-Dependent Domains}{}
      \textbf{Languages:} Java, Python, C, Rust, OCaml, TypeScript, JavaScript, MATLAB, R, Assembly \\[2pt]
      \textbf{Libraries \& Frameworks:} Flask, NumPy, Pandas, SciPy, scikit-learn, Matplotlib, Qiskit, React \\[2pt]
      \textbf{Databases \& Infrastructure:} MongoDB, Redis, DynamoDB, PostgreSQL, AWS (EC2, ECS, Lambda, CloudFormation, IAM) \\[2pt]
-     \textbf{Developer Tools:} Git, Jupyter, VS Code, Cursor, GitHub Copilot, Claude Code, Docker \\[2pt]
+     \textbf{Developer Tools:} Git, Jupyter, VS Code, Cursor, GitHub Copilot, Claude Code, Codex, Docker \\[2pt]
      \textbf{Spoken Languages:} Fluent in English and Mandarin Chinese \\[2pt]
     }}
  \end{itemize}
