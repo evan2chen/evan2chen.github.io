@@ -87,7 +87,7 @@ Paths below are relative to the repository root. Site tests live in `tests/e2e/s
 | Feature or subsystem | Implementation | Tests |
 | --- | --- | --- |
 | Home, profile, study and contact links | `src/pages/index.astro`, `src/content/site.json` | Site: identity, resume and desktop layout |
-| Interactive heatmap, synthetic seeds, live key, reset and keyboard input | `src/components/Heatmap.astro`, `src/lib/heatmap.ts`, `src/lib/histogram.ts` | Site: pointer, keyboard, reset, theme, ripple and sizing |
+| Home build animation, agent cursors and eye-catcher | `src/components/AgentLayer.astro`, `src/lib/agents.js`, `src/lib/name-glyphs.json` (regenerate with `node scripts/build-glyphs.mjs <InterTight[wght].ttf>`) | Site: build phases, return visits, reduced motion, shipping and no-JavaScript |
 | Projects, ordering, media placeholders and video playback | `src/pages/projects.astro`, `src/components/Media.astro`, `src/content/projects.json` | Site: content order; editor: project operations and video playback |
 | Boolean expression compiler, circuit and Grover iteration estimate | `src/components/QuantumDemo.astro`, `src/lib/oracle.ts` | Site: expressions, presets, errors and static fallback |
 | Other feed, type filters and Markdown entry pages with galleries | `src/pages/other/index.astro`, `src/pages/other/[slug].astro`, `src/content/other/`, `src/content.config.ts` | Site: empty state; editor: creation, Markdown, photos, videos and filtering |

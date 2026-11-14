@@ -121,13 +121,13 @@ components:
 
 **Creative North Star: "The Grid Sheet"**
 
-Projects and Other share a 1280px sheet: a header row, a page title set enormous, one heavy rule, and content on a strict 12-column grid. Home is the exception. It fills the window inside a comfortable margin, one screen tall, with the heatmap taking the right two-thirds. Black on white, white on near-black, and one signal red that marks where you are and what matters. Nothing floats, nothing is rounded, nothing casts a shadow. Interest comes from scale contrast (176px titles against 12-15px text) and from the live heatmap on Home.
+Projects and Other share a 1280px sheet: a header row, a page title set enormous, one heavy rule, and content on a strict 12-column grid. Home is the exception. It fills the window inside a comfortable margin, one screen tall, with the agent cursors' bay taking the right two-thirds. Black on white, white on near-black, and one signal red that marks where you are and what matters. Nothing floats, nothing is rounded, nothing casts a shadow, except the agent cursors and the round theme button. Interest comes from scale contrast (176px titles against 12-15px text) and from the agent cursors building Home.
 
 **Key Characteristics:**
 - One typeface, Inter Tight, self-hosted as a variable font.
 - 12 columns with a 16px gap inside a 1280px sheet; on Home the grid spans the window inside the edge margin. Home's content text runs 20% larger than elsewhere (17px body, 14px labels), and its description scales with the screen (clamp(16px, min(1.45vw, 2.4svh), 25px)) so Home fits one screen; the header is the same on every page.
 - A 1.5px rule under every page title and above the footer; 1px hairlines between rows.
-- Signal red only for the current page, pressed or hot states, the hottest heatmap bins, the quantum phase gate, and placeholder underlines.
+- Signal red only for the current page, pressed or hot states, the agent cursors and their outlines, the quantum phase gate, and placeholder underlines.
 - Light and dark are full counterparts; visitors switch with the sun/crescent button and the choice persists.
 
 ## Colors
@@ -161,7 +161,7 @@ Projects and Other share a 1280px sheet: a header row, a page title set enormous
 - **Headline** (600, 26-34px, -0.03em): project names, feed titles.
 - **Statement** (400, 21px, line-height 1.3): the personal description and entry excerpts.
 - **Body** (400, 14-15px, line-height 1.5): blurbs, lists, links, header, footer. Markdown prose runs 17px at 66ch.
-- **Label** (400, 12px, ink-2): heatmap key, captions, readouts, demo notes.
+- **Label** (400, 12px, ink-2): shipped log, captions, readouts, demo notes.
 
 All numbers are tabular.
 
@@ -169,7 +169,7 @@ All numbers are tabular.
 
 The sheet is max 1280px with a fluid gutter (16-48px). The header row is identical on every page: it spans the window inside the edge margin (`--edge`: 12vw up to 288px, 32px on phones), with name in columns 1-3, numbered nav in 7-11, and the theme button at the right edge of 12. Home (`body.fill`) uses the same edge margin on the sides of its content and 12% of the screen height (capped at the edge margin) below it, so it always fits one screen.
 
-- **Home ("name across"):** the page is exactly one screen tall, from 1280 × 720 up. The name runs across all 12 columns as a masthead. Below it, columns 1-4 hold the description at full column width, then the photo (3:4) beside the Study fact, then the link list pinned to the bottom, with GitHub and LinkedIn sharing a row. Columns 5-12 are the heatmap, starting under the name and ending at the margin on the right and bottom, with its key in a notch cut from the field's bottom-left corner. Vertical spacing is min(0.55 × gutter, 2.4svh), so short screens tighten instead of overflowing. Below 900px it stacks: name, full-bleed heatmap with the key under it, description, photo and Study, links.
+- **Home ("name across"):** the page is exactly one screen tall, from 1280 × 720 up. The name runs across all 12 columns as a masthead. Below it, columns 1-4 hold the description at full column width, then the photo (3:4) beside the Study fact, then the link list pinned to the bottom, with GitHub and LinkedIn sharing a row. Columns 5-12 are the eye-catcher: an open bay where agent cursors build small components, over a dock with the shipped counter and log, ending at the margin on the right and bottom.55 × gutter, 2.4svh), so short screens tighten instead of overflowing. Below 900px it stacks: name, the eye-catcher, description, photo and Study, links.
 - **Projects and Other:** the display title, then a 1.5px rule, then the content below.
 - **Projects:** one row per project: index in column 1, media 2-8 at 16:9, text 9-12. Rows are separated by hairlines. Below 900px rows stack.
 - **Other:** filter row, then a feed: date 1-2, type 3, content 4-10, action 11-12.
@@ -180,19 +180,19 @@ The sheet is max 1280px with a fluid gutter (16-48px). The header row is identic
 - **Nav marker:** a 2px signal-red bar under the current page's nav column, 6px below the labels.
 - **Link list:** stacked rows with a hairline above each and an arrow at the right; the first can be a solid ink button (Resume). Hover turns the row red.
 - **Facts:** an 88px label column and value column, hairlines between.
-- **Theme button:** a square hairline-outlined icon button (2.5x body size). It shows a crescent in light mode and a sun in dark mode, and its label names the mode it switches to. Hover darkens the outline to ink and turns the icon red.
-- **Heatmap:** fills its container with square bins: about 54 across the viewport on desktop and 18 on phones, recomputed and reseeded when the size changes. The key notch holds the stepped six-swatch key with live ranges, the caption, the readout with the bin count, and Reset. It draws on pointer movement, touch drag, or arrows + Enter. Without JavaScript, a seeded 48 x 27 SVG fills the same area.
+- **Theme button:** a circle split into a fixed dark half and light half with a grey outline, the same in both themes (1.6x body size). Each press rotates it 180°, so the halves swap sides. Its label names the mode it switches to; hover turns the outline red.
+- **Agent cursors:** soft-cornered triangles in signal red with a white halo. Ten build the page and then take roles: two escorts orbit the visitor's pointer and nearby links, one maintainer floats slowly between empty spots that keep clear of text and images, and three builders wireframe, shade and assemble components in the bay, then ship them into the counter. The rest leave the screen. Without JavaScript the bay stays empty and the dock is hidden.
 - **Quantum demo:** expression input on a 1.5px ink underline, preset chips with hairline borders, the oracle circuit as inline SVG (filled dot control, hollow dot negated control, ⊕ target, red Z phase gate, faded uncompute), stats line.
 - **Project video:** muted, looped, with native controls. Only the video most in view plays, and its row number turns red. Reduced motion never autoplays.
 - **Draft underline:** unfinished copy and links without an address carry a 1.5px dashed red underline.
 
 ## Motion
 
-Motion runs on the live page, so links and the heatmap stay usable while it plays. Reduced motion disables CSS transitions and animations, skips the heatmap intro on load, and pauses automatic video playback.
+Motion runs on the live page, so links stay usable while it plays. Reduced motion disables CSS transitions and animations, skips the home build and the cursors (the bay shows three finished components), and pauses automatic video playback.
 
 - **Page arrival:** coming from another page of the site, the content slides in from the nav direction (from the right going to a higher-numbered page, from the left going back) by min(40px, gutter), 0.44s, while the nav marker slides over from the previous column, 0.48s, both on `cubic-bezier(0.16, 1, 0.3, 1)`. The head script sets `html[data-arrive]` and `--mark-from`.
-- **Theme change:** every color token is a registered `@property` color, and `html` fades them together over 0.4s.
-- **Heatmap load-in (Ripple):** bins appear in a circular wave from the center of the window, not of the heatmap, reaching the farthest bin at 0.8s. Each bin grows from a point and lands in signal red, then cools to its level over 0.56s. Red here is transient heat and settles before the page is at rest.
+- **Theme change:** the page switches at once while a copy in the old theme sits on top and is swept away like a clock hand pivoting just past the top-right corner, 0.7s on `cubic-bezier(0.12, 0.8, 0.3, 1)`, as the theme button turns 180°. Clicks pass through the copy, and pressing again mid-sweep finishes it and starts the next. Without the sweep, the registered `@property` color tokens fade together over 0.4s.
+- **Home build:** on a fresh visit (not when arriving from another page), every accent outline is drawn within 2s: wireframes, the name's cap height, x-height and baseline, one box per letter pulled tight to -55 tracking with each letter sketched in its box, the description's staggered rules and word margins, and the photo's hatch. Then everything fills in within the next 2s: the name is paint-bucket filled, every description line types out at once, the links slide in from the left, the photo is revealed over its hatch, and the header items pop in. The cursors never stand still; extra sketchers leave once done.
 
 ## Rules
 
