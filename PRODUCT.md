@@ -33,11 +33,11 @@ Name disambiguation is a standing requirement: a well-known math olympiad coach 
 
 ## Capabilities and Constraints
 
-- Three main pages: Home (name, Evan's description, study line, photo, resume and contact links, the heatmap as the eye-catcher), Projects (one row per project with media, blurb, stack and links), and Other (one feed of posts, images and non-technical projects, filterable by type, with an empty state until entries exist). Other entries have individual Markdown pages with photo and video galleries; unknown paths have a 404 page.
+- Three main pages: Home (name, Evan's description, study line, photo, resume and contact links, agent cursors that build the page and keep shipping small components as the eye-catcher), Projects (one row per project with media, blurb, stack and links), and Other (one feed of posts, images and non-technical projects, filterable by type, with an empty state until entries exist). Other entries have individual Markdown pages with photo and video galleries; unknown paths have a 404 page.
 - Content lives in `src/content` (`site.json`, `projects.json`, `other/*.md`) and is edited in place on the local dev server; Publish commits and pushes, and GitHub Actions deploys.
 - Quantum demo: a TypeScript parser for variables `a` through `e`, operators `~`, `&`, `|`, `^` and parentheses. It builds a reversible compute/phase/uncompute gate list and SVG circuit, counts satisfying assignments classically, and reports a Grover iteration estimate. The Python/Qiskit/Z3 ancilla optimization project described in the content is separate from this inline compiler.
 - Projects: Quantum Ancilla Optimizer (inline compiler demo), herd, Midboss Mayhem and Valorant Assistant. herd and Midboss Mayhem show screen-recorded videos; Valorant Assistant uses a media placeholder. Uploaded project videos autoplay one at a time when sufficiently in view, with reduced-motion support. Experience, research, IMC Prosperity and GEA Bot are left to the resume PDF.
-- Interactive updates run in the browser: quantum circuits compile from the visitor's expression and the heatmap bins pointer or keyboard samples over synthetic seeds. Initial circuits and a heatmap SVG render statically. The published site uses static hosting; the local editor has development-only server endpoints.
+- Interactive updates run in the browser: quantum circuits compile from the visitor's expression and the agent cursors build the home page and follow the pointer. Initial circuits render statically, and every page's content is readable without JavaScript. The published site uses static hosting; the local editor has development-only server endpoints.
 - Hosting: evan2chen.github.io; a custom domain may come later. No analytics.
 - Use screen-recorded video for herd and Midboss Mayhem when recordings are available.
 - Amazon internship content stays at resume-level detail.
@@ -68,6 +68,6 @@ The profile photo is configured in `src/content/site.json` and stored in `public
 
 ## Accessibility & Inclusion
 
-Target WCAG 2.2 AA. Maintain keyboard access, reduced-motion support and readable core content with JavaScript disabled. The site suite runs axe scans in light and dark themes and checks keyboard heatmap input and static fallbacks; these checks support the target rather than establish full conformance.
+Target WCAG 2.2 AA. Maintain keyboard access, reduced-motion support and readable core content with JavaScript disabled. The site suite runs axe scans in light and dark themes and checks reduced motion, the home build and static fallbacks; these checks support the target rather than establish full conformance.
 
 Implementation and test paths are indexed in the [README feature map](README.md#feature-map).

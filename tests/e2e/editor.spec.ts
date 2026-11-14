@@ -117,20 +117,31 @@ test('uploading a profile photo stores it under public/media and shows it', asyn
 
 test('projects can be added, renamed, reordered and removed', async ({ page }) => {
   await startEditing(page, '/projects/');
-  await reloadsAfter(page, () => page.getByRole('button', { name: 'Add a project' }).click());
-  expect(projectList().at(-1)!.id).toBe('new-project');
+  const dialog = page.locator('dialog');
+  await page.getByRole('button', { name: 'Add a project' }).click();
+  await expect(dialog).toContainText('New project ID');
+  await dialog.getByRole('textbox').fill('test-project');
+  await reloadsAfter(page, () => dialog.getByRole('button', { name: 'Create' }).click());
+  expect(projectList().at(-1)!.id).toBe('test-project');
 
-  await retype(page, page.locator('[data-edit-text="projects:new-project:title"]'), 'Sandbox demo');
+  const count = projectList().length;
+  await page.getByRole('button', { name: 'Add a project' }).click();
+  await dialog.getByRole('textbox').fill('test-project');
+  await dialog.getByRole('button', { name: 'Create' }).click();
+  await expect(page.getByText('A project already uses the ID test-project')).toBeVisible();
+  expect(projectList()).toHaveLength(count);
+
+  await retype(page, page.locator('[data-edit-text="projects:test-project:title"]'), 'Sandbox demo');
   expect(projectList().at(-1)!.title).toBe('Sandbox demo');
 
-  await reloadsAfter(page, () => page.locator('#new-project').getByRole('button', { name: 'Move up' }).first().click());
-  expect(projectList().at(-2)!.id).toBe('new-project');
+  await reloadsAfter(page, () => page.locator('#test-project').getByRole('button', { name: 'Move up' }).first().click());
+  expect(projectList().at(-2)!.id).toBe('test-project');
   await expect(page.locator('.row h2').nth(projectList().length - 2)).toHaveText('Sandbox demo');
 
-  await page.locator('#new-project').getByRole('button', { name: 'Remove' }).first().click();
-  await reloadsAfter(page, () => page.locator('dialog').getByRole('button', { name: 'Remove' }).click());
-  expect(projectList().map((p) => p.id)).not.toContain('new-project');
-  await expect(page.locator('#new-project')).toHaveCount(0);
+  await page.locator('#test-project').getByRole('button', { name: 'Remove' }).first().click();
+  await reloadsAfter(page, () => dialog.getByRole('button', { name: 'Remove' }).click());
+  expect(projectList().map((p) => p.id)).not.toContain('test-project');
+  await expect(page.locator('#test-project')).toHaveCount(0);
 });
 
 test('uploaded project videos play one at a time as they scroll into view', async ({ page }) => {

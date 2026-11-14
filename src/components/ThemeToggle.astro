@@ -1,74 +1,124 @@
-<button type="button" class="theme" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
-  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5a8.5 8.5 0 1 0 10.8 10.8z"></path></svg>
-  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"></path></svg>
-</button>
+<button type="button" class="theme" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode" data-hide hidden></button>
 
 <script>
   const root = document.documentElement;
   const system = matchMedia('(prefers-color-scheme: dark)');
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
   const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : system.matches);
+  const timing: KeyframeAnimationOptions = { duration: 700, easing: 'cubic-bezier(0.12, 0.8, 0.3, 1)', fill: 'forwards' };
+
+  const snapshot = (theme: string) => {
+    const snap = document.createElement('div');
+    snap.className = 'theme-snapshot';
+    snap.dataset.theme = theme;
+    snap.setAttribute('aria-hidden', 'true');
+    snap.inert = true;
+    const page = document.createElement('div');
+    page.className = `${document.body.className} snapshot-page`;
+    page.style.width = `${root.clientWidth}px`;
+    page.style.transform = `translate(${-scrollX}px, ${-scrollY}px)`;
+    for (const child of document.body.children) {
+      if (!child.matches('script, .agents, .theme-snapshot')) page.append(child.cloneNode(true));
+    }
+    page.querySelectorAll('[data-theme-toggle]').forEach((el) => el.remove());
+    page.querySelectorAll('video').forEach((video) => video.removeAttribute('autoplay'));
+    snap.append(page);
+    document.body.append(snap);
+    return snap;
+  };
+
+  const unswept = () => {
+    const w = innerWidth;
+    const h = innerHeight;
+    const off = Math.min(w, h) * 0.3;
+    const px = w + off;
+    const py = -off;
+    const angle = (x: number, y: number) => Math.atan2(y - py, x - px);
+    const from = angle(w, h) - 0.04;
+    const to = angle(0, 0) + 0.04;
+    const r = Math.hypot(px, h - py) + 40;
+    return Array.from({ length: 31 }, (_, i) => {
+      const start = from + ((to - from) * i) / 30;
+      const points = [`${px}px ${py}px`];
+      for (let j = 0; j <= 16; j++) {
+        const t = start + ((to - start) * j) / 16;
+        points.push(`${px + r * Math.cos(t)}px ${py + r * Math.sin(t)}px`);
+      }
+      return { clipPath: `polygon(${points.join(', ')})` };
+    });
+  };
 
   for (const button of document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]')) {
+    let spin = 0;
+    let sweep: { snap: HTMLElement; animation: Animation } | null = null;
+
     const sync = () => {
-      const dark = isDark();
-      const label = dark ? 'Switch to light mode' : 'Switch to dark mode';
-      button.dataset.mode = dark ? 'dark' : 'light';
+      const label = isDark() ? 'Switch to light mode' : 'Switch to dark mode';
       button.setAttribute('aria-label', label);
       button.title = label;
     };
-    button.hidden = false;
-    sync();
-    system.addEventListener('change', sync);
-    button.addEventListener('click', () => {
+
+    const apply = () => {
       const next = isDark() ? 'light' : 'dark';
       root.dataset.theme = next;
       try {
         localStorage.setItem('theme', next);
       } catch {}
+      spin += 180;
+      button.style.setProperty('--spin', `${spin}deg`);
       sync();
+    };
+
+    const settle = () => {
+      if (!sweep) return;
+      sweep.animation.cancel();
+      sweep.snap.remove();
+      sweep = null;
+      root.classList.remove('theme-sweep');
+    };
+
+    button.hidden = false;
+    sync();
+    system.addEventListener('change', sync);
+    button.addEventListener('click', () => {
+      settle();
+      if (still.matches) {
+        apply();
+        return;
+      }
+      const snap = snapshot(isDark() ? 'dark' : 'light');
+      root.classList.add('theme-sweep');
+      apply();
+      const animation = snap.animate(unswept(), timing);
+      sweep = { snap, animation };
+      animation.finished.then(settle, () => {});
     });
   }
 </script>
 
 <style>
   .theme {
-    width: calc(var(--t) * 2.5);
-    height: calc(var(--t) * 2.5);
-    display: grid;
-    place-items: center;
+    width: calc(var(--t) * 1.6);
+    height: calc(var(--t) * 1.6);
     padding: 0;
-    color: var(--ink);
-    background: transparent;
-    border: 1px solid var(--hair);
+    border-radius: 50%;
+    border: 1.5px solid #8f8f8f;
+    background: linear-gradient(90deg, #0b0b0b 50%, #f2f2f2 50%);
     cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
+    rotate: var(--spin, 0deg);
+    transition: rotate 0.7s cubic-bezier(0.12, 0.8, 0.3, 1), border-color 0.15s;
   }
 
   .theme:hover {
-    color: var(--acc);
-    border-color: var(--ink);
+    border-color: var(--acc);
   }
 
   .theme[hidden] {
     display: none;
   }
 
-  svg {
-    width: 55%;
-    height: 55%;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .sun,
-  .theme[data-mode='dark'] .moon {
-    display: none;
-  }
-
-  .theme[data-mode='dark'] .sun {
-    display: block;
+  :global(html.theme-sweep) .theme {
+    position: relative;
+    z-index: 16;
   }
 </style>

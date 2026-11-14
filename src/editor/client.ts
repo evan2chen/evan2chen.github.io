@@ -255,7 +255,15 @@ function wireTools(el: HTMLElement) {
     const target = d.editAdd;
     const add = tools(el, 'ed-add');
     if (target === 'projects') {
-      button(add, d.editLabel ?? '+ Add', 'Add a project', () => guard(() => api('create', { target })));
+      button(add, d.editLabel ?? '+ Add', 'Add a project', async () => {
+        const id = await ask({
+          title: 'New project ID',
+          hint: 'Lowercase letters, numbers and hyphens, like jobwatcher. It names the project in projects.json and its #link on the Projects page, and stays fixed once created.',
+          value: '',
+          confirm: 'Create',
+        });
+        if (id !== null) await guard(() => api('create', { target, id: id.trim() }));
+      });
     } else {
       for (const type of (d.editTypes ?? '').split(',')) {
         button(add, `+ ${type[0].toUpperCase()}${type.slice(1)}`, `New ${type} entry`, async () => {

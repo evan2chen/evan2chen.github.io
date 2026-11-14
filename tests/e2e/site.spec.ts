@@ -8,10 +8,26 @@ const projects: { id: string; title: string }[] = JSON.parse(readFileSync('src/c
 const site: { otherEmpty: string } = JSON.parse(readFileSync('src/content/site.json', 'utf8'));
 const hasOtherEntries = readdirSync('src/content/other').some((f) => f.endsWith('.md'));
 
-const live = (page: Page) => expect(page.locator('#heatmap-readout')).toContainText('bins');
+const built = (page: Page) => page.waitForFunction(() => !document.documentElement.dataset.build, null, { timeout: 15000 });
 
-const sampleCount = async (page: Page) =>
-  Number((await page.locator('#heatmap-readout').textContent())!.match(/^([\d,]+) samples/)![1].replace(/,/g, ''));
+const phases = (page: Page) =>
+  page.evaluate(
+    () =>
+      new Promise<Record<string, number>>((resolve) => {
+        const root = document.documentElement;
+        const seen: Record<string, number> = {};
+        const t0 = performance.now();
+        const watch = () => {
+          const phase = root.dataset.build ?? 'done';
+          seen[phase] ??= performance.now() - t0;
+          if (phase === 'done' || performance.now() - t0 > 12000) resolve(seen);
+          else requestAnimationFrame(watch);
+        };
+        watch();
+      }),
+  );
+
+const opacity = (page: Page, selector: string) => page.locator(selector).first().evaluate((el) => getComputedStyle(el).opacity);
 
 test('home identifies this Evan Chen and offers the resume', async ({ page }) => {
   await page.goto('/');
@@ -106,13 +122,12 @@ test('the theme toggle switches modes, persists, and starts from the system sett
   await page.goto('/');
   const toDark = page.getByRole('button', { name: 'Switch to dark mode' });
   const background = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  await expect(toDark.locator('.moon')).toBeVisible();
+  await expect(toDark).toBeVisible();
   await expect.poll(background).toBe('rgb(255, 255, 255)');
 
   await toDark.click();
   const toLight = page.getByRole('button', { name: 'Switch to light mode' });
-  await expect(toLight.locator('.sun')).toBeVisible();
-  await expect(toLight.locator('.moon')).toBeHidden();
+  expect(await toLight.evaluate((el) => el.style.getPropertyValue('--spin'))).toBe('180deg');
   await expect.poll(background).toBe('rgb(11, 11, 11)');
 
   await page.goto('/projects/');
@@ -130,97 +145,85 @@ test('the theme toggle switches modes, persists, and starts from the system sett
   await fresh.close();
 });
 
-test('the heatmap bins pointer movement and redraws for the chosen theme', async ({ page }) => {
-  await page.goto('/');
-  await live(page);
-  const canvas = page.locator('#heatmap canvas');
-  await expect(canvas).toBeVisible();
-  const before = await sampleCount(page);
-  const box = (await canvas.boundingBox())!;
-  await page.mouse.move(box.x + box.width * 0.2, box.y + box.height * 0.3);
-  await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.6, { steps: 20 });
-  await expect.poll(() => sampleCount(page)).toBeGreaterThan(before);
-
-  const corner = () => canvas.evaluate((c: HTMLCanvasElement) => [...c.getContext('2d')!.getImageData(0, 0, 1, 1).data.slice(0, 3)].join(','));
-  const light = await corner();
-  await page.getByRole('button', { name: 'Switch to dark mode' }).click();
-  await expect.poll(corner).not.toBe(light);
-
-  await page.getByRole('button', { name: 'Reset' }).click();
-  await expect.poll(() => sampleCount(page)).toBe(before);
+test('pressing the theme toggle mid-switch finishes that switch and plays the next', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/projects/');
+  const toggle = page.getByRole('button', { name: /^Switch to/ });
+  const box = (await toggle.boundingBox())!;
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await page.waitForTimeout(150);
+  expect(await page.evaluate(() => document.documentElement.classList.contains('theme-sweep'))).toBe(true);
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(page.getByRole('button', { name: 'Switch to dark mode' })).toBeVisible();
+  await expect(page.locator('.theme-snapshot')).toHaveCount(1);
+  expect(await toggle.evaluate((el) => el.style.getPropertyValue('--spin'))).toBe('360deg');
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(255, 255, 255)');
 });
 
-const drawnReach = (page: Page) =>
-  page.evaluate(() => {
-    const canvas = document.querySelector<HTMLCanvasElement>('#heatmap canvas')!;
-    const rect = canvas.getBoundingClientRect();
-    const scale = canvas.width / rect.width;
-    const cx = (innerWidth / 2 - rect.left) * scale;
-    const cy = (innerHeight / 2 - rect.top) * scale;
-    const { data, width, height } = canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height);
-    const ground = [data[0], data[1], data[2]].join();
-    let drawn = 0;
-    let reach = 0;
-    for (let y = 0; y < height; y += 4) {
-      for (let x = 0; x < width; x += 4) {
-        const i = (y * width + x) * 4;
-        if ([data[i], data[i + 1], data[i + 2]].join() === ground) continue;
-        drawn += 1;
-        reach = Math.max(reach, Math.hypot(x - cx, y - cy));
-      }
-    }
-    return { drawn, reach };
-  });
-
-test('the heatmap ripples out from the center of the window on load', async ({ page }) => {
-  await page.clock.install();
+test('a fresh visit to home draws every outline, then fills the page in within about two seconds', async ({ page }) => {
   await page.goto('/');
-  await live(page);
-  await page.clock.runFor(250);
-  const early = await drawnReach(page);
-  await page.clock.runFor(1500);
-  const settled = await drawnReach(page);
-  expect(early.drawn).toBeGreaterThan(0);
-  expect(early.drawn).toBeLessThan(settled.drawn);
-  expect(early.reach).toBeLessThan(settled.reach * 0.6);
+  const timeline = phases(page);
+  await expect(page.locator('html')).toHaveAttribute('data-build', 'outline');
+  expect(await opacity(page, 'h1')).toBe('0');
+  expect(await opacity(page, '.links a')).toBe('0');
+  await expect.poll(() => page.locator('.agents .wires > *').count()).toBeGreaterThan(5);
+  const seen = await timeline;
+  expect(seen.fill).toBeDefined();
+  expect(seen.done - seen.fill).toBeLessThan(2600);
+  expect(await opacity(page, 'h1')).toBe('1');
+  await expect(page.getByRole('link', { name: 'Resume (PDF)' })).toBeInViewport();
+  await expect(page.locator('.agents .agent')).not.toHaveCount(0);
 });
 
-test('the heatmap appears at once with reduced motion', async ({ page }) => {
+test('the outline phase hands off to the fill phase at about two seconds', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-build', 'outline');
+  const started = Date.now();
+  await expect(page.locator('html')).toHaveAttribute('data-build', 'fill', { timeout: 5000 });
+  expect(Date.now() - started).toBeLessThan(2600);
+});
+
+test('builders keep shipping components after the build', async ({ page }) => {
+  await page.goto('/');
+  await built(page);
+  await expect(page.locator('.count b')).not.toHaveText('000', { timeout: 20000 });
+  await expect(page.locator('.log li')).not.toHaveCount(0);
+});
+
+test('returning to home from another page shows it without the build', async ({ page }) => {
+  await page.goto('/projects/');
+  await page.getByRole('navigation', { name: 'Pages' }).getByRole('link', { name: 'Home' }).click();
+  await expect(page).toHaveURL(/\/$/);
+  expect(await page.evaluate(() => document.documentElement.dataset.build ?? null)).toBeNull();
+  expect(await opacity(page, '.statement')).toBe('1');
+  expect(await page.locator('.agents .wires > *').count()).toBe(0);
+});
+
+test('home appears at once with a still eye-catcher under reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.clock.install();
   await page.goto('/');
-  await live(page);
-  await page.clock.runFor(50);
-  const first = await drawnReach(page);
-  await page.clock.runFor(1500);
-  expect(await drawnReach(page)).toEqual(first);
-});
-
-test('the heatmap works from the keyboard', async ({ page }) => {
-  await page.goto('/');
-  await live(page);
-  const before = await sampleCount(page);
-  await page.locator('#heatmap canvas').focus();
-  await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('Enter');
-  await expect.poll(() => sampleCount(page)).toBe(before + 12);
+  expect(await page.evaluate(() => document.documentElement.dataset.build ?? null)).toBeNull();
+  await expect(page.locator('.bay .item')).toHaveCount(3);
+  await expect(page.locator('.count b')).toHaveText('003');
+  await page.waitForTimeout(500);
+  await expect(page.locator('.bay .item')).toHaveCount(3);
 });
 
 for (const [width, height] of [[1280, 720], [1366, 768], [1440, 900], [1536, 864], [1920, 1080], [2560, 1440]]) {
-  test(`home fills a ${width} x ${height} screen inside a margin, with square heatmap bins`, async ({ page }) => {
+  test(`home fills a ${width} x ${height} screen inside a margin`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.setViewportSize({ width, height });
     await page.goto('/');
-    await live(page);
-    const heatmap = (await page.locator('#heatmap').boundingBox())!;
+    const eye = (await page.locator('.eye').boundingBox())!;
     const edge = await page.evaluate(() => document.body.clientWidth);
-    const right = edge - (heatmap.x + heatmap.width);
-    const bottom = height - (heatmap.y + heatmap.height);
+    const right = edge - (eye.x + eye.width);
+    const bottom = height - (eye.y + eye.height);
     expect(right).toBeCloseTo(Math.min(288, edge * 0.12), 0);
     expect(bottom).toBeCloseTo(Math.min(288, edge * 0.12, height * 0.12), 0);
     expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBeLessThanOrEqual(height);
-    expect(heatmap.width).toBeGreaterThan((width - 2 * right) * 0.6);
+    expect(eye.width).toBeGreaterThan((width - 2 * right) * 0.6);
     const toggle = (await page.getByRole('button', { name: /Switch to (dark|light) mode/ }).boundingBox())!;
-    expect(toggle.x + toggle.width).toBeCloseTo(heatmap.x + heatmap.width, 0);
+    expect(toggle.x + toggle.width).toBeCloseTo(eye.x + eye.width, 0);
     const resume = (await page.getByRole('link', { name: 'Resume (PDF)' }).boundingBox())!;
     expect(resume.y + resume.height).toBeLessThanOrEqual(height);
     expect(resume.y).toBeGreaterThan(height * 0.6);
@@ -228,9 +231,6 @@ for (const [width, height] of [[1280, 720], [1366, 768], [1440, 900], [1536, 864
     const about = (await page.locator('.about').boundingBox())!;
     expect(photo.y + photo.height).toBeCloseTo(about.y + about.height, 0);
     expect(Math.max(photo.height / about.height, photo.width / (about.width * 0.62))).toBeCloseTo(1, 2);
-    const [cols, rows] = (await page.locator('#heatmap-readout').textContent())!.match(/(\d+) × (\d+) bins/)!.slice(1).map(Number);
-    const canvas = (await page.locator('#heatmap canvas').boundingBox())!;
-    expect(canvas.width / cols / (canvas.height / rows)).toBeCloseTo(1, 1);
   });
 }
 
@@ -259,28 +259,13 @@ test('home text runs 20% larger than the other pages, with the name at title siz
   expect(home.name).toBe(await size('h1'));
 });
 
-test('the heatmap key tracks the live maximum', async ({ page }) => {
-  await page.goto('/');
-  await live(page);
-  const ranges = page.locator('#heatmap .key-range');
-  const upper = async () => Number((await ranges.last().textContent())!.split('-').pop()!.replace(/,/g, ''));
-  await expect(ranges).toHaveCount(6);
-  await expect(ranges.first()).toHaveText(/^1(-|$)/);
-  const before = await upper();
-  const box = (await page.locator('#heatmap canvas').boundingBox())!;
-  const x = box.x + box.width * 0.9;
-  const y = box.y + box.height * 0.9;
-  for (let i = 0; i < before + 5; i++) await page.mouse.move(x + (i % 2), y);
-  await expect.poll(upper).toBeGreaterThan(before);
-});
-
 test('pages render their content without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/');
-  await expect(page.locator('#heatmap .heatmap-fallback')).toBeVisible();
-  expect(await page.locator('#heatmap .heatmap-fallback rect').count()).toBeGreaterThan(100);
-  await expect(page.getByRole('button', { name: 'Reset' })).toBeHidden();
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  expect(await opacity(page, '.statement')).toBe('1');
+  await expect(page.locator('.dock')).toBeHidden();
   await expect(page.getByRole('button', { name: /Switch to (dark|light) mode/ })).toBeHidden();
   await page.goto('/projects/');
   await expect(page.locator('[data-quantum] .circuit svg')).toBeVisible();
@@ -333,6 +318,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme });
     for (const path of [...pages, '/no-such-page']) {
       await page.goto(path);
+      await built(page);
       await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
       const results = await new AxeBuilder({ page }).analyze();
       expect(results.violations, `${path}: ${results.violations.map((v) => v.id).join(', ')}`).toEqual([]);

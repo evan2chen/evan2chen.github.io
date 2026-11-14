@@ -26,6 +26,7 @@ class HttpError extends Error {
 const run = promisify(execFile);
 const SEGMENT = /^(?!__)[A-Za-z0-9_-]+$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
+const PROJECT_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MEDIA_TYPES = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif', '.svg', '.mp4', '.webm']);
 const ENTRY_TYPES = new Set(['post', 'image', 'project']);
 const PUBLISHED = ['src/content', 'public/media', 'resume/main.tex'];
@@ -185,11 +186,11 @@ function createStore(root: string) {
       await writeJson(projectsPath, list);
     },
 
-    async create(target: unknown, type: unknown) {
+    async create(target: unknown, type: unknown, id: unknown) {
       if (target === 'projects') {
+        if (typeof id !== 'string' || !PROJECT_ID.test(id)) throw new HttpError(400, 'Project IDs use lowercase letters, numbers and hyphens, like jobwatcher');
         const list = await readJson<Doc[]>(projectsPath);
-        let id = 'new-project';
-        for (let n = 2; list.some((p) => p.id === id); n++) id = `new-project-${n}`;
+        if (list.some((p) => p.id === id)) throw new HttpError(409, `A project already uses the ID ${id}`);
         list.push({ id, title: 'New project', blurb: 'What it does and the result that matters.', stack: 'Stack', links: [], media: { kind: 'none', note: 'Media coming soon' } });
         await writeJson(projectsPath, list);
         return id;
@@ -298,7 +299,7 @@ async function route(store: Store, req: IncomingMessage) {
     case 'POST /move':
       return store.move(body.address, body.by);
     case 'POST /create':
-      return { id: await store.create(body.target, body.type) };
+      return { id: await store.create(body.target, body.type, body.id) };
     case 'POST /resume':
       return store.saveResume(body.tex);
     case 'POST /publish':

@@ -11,11 +11,11 @@ const currentIndex = pages.findIndex((p) => p.id === current);
 ---
 
 <header class="top grid no-print">
-  <a class="who" href="/">{site.name}</a>
+  <a class="who" href="/" data-hide>{site.name}</a>
   <nav aria-label="Pages">
     {
       pages.map((p, i) => (
-        <a href={p.href} aria-current={p.id === current ? 'page' : undefined}>
+        <a href={p.href} aria-current={p.id === current ? 'page' : undefined} data-hide>
           <i>0{i + 1}</i>
           {p.label}
         </a>

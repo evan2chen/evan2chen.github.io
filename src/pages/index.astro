@@ -1,18 +1,30 @@
 ---
 import Base from '../layouts/Base.astro';
-import Heatmap from '../components/Heatmap.astro';
+import AgentLayer from '../components/AgentLayer.astro';
 import { edit, site } from '../lib/content';
 ---
 
 <Base page="home" fill>
+  <script is:inline slot="head" define:vars={{ dev: import.meta.env.DEV }}>
+    try {
+      const root = document.documentElement;
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!still && !root.dataset.arrive && (!dev || new URLSearchParams(location.search).has('build'))) {
+        root.dataset.build = 'pending';
+        setTimeout(() => {
+          if (root.dataset.build === 'pending') delete root.dataset.build;
+        }, 4000);
+      }
+    } catch {}
+  </script>
   <main id="main" class="home grid">
-    <h1 class="name" {...edit('text', 'site:name')}>{site.name}</h1>
+    <h1 class="name" data-hide {...edit('text', 'site:name')}>{site.name}</h1>
     <div class="side">
-      <p class="statement" {...edit('text', 'site:description', { raw: site.description })}>
+      <p class="statement" data-hide {...edit('text', 'site:description', { raw: site.description })}>
         {site.description || <span class="draft">One sentence in your own voice about what you build and why.</span>}
       </p>
       <div class="about">
-        <figure class="photo" {...edit('media', 'site:photo', { accept: 'image/*' })}>
+        <figure class="photo" data-hide {...edit('media', 'site:photo', { accept: 'image/*' })}>
           {
             site.photo.src ? (
               <img src={site.photo.src} alt={site.photo.alt} width="568" height="757" decoding="async" />
@@ -22,19 +34,26 @@ import { edit, site } from '../lib/content';
           }
         </figure>
         <dl class="facts">
-          <dt>Study</dt>
-          <dd {...edit('text', 'site:study')}>{site.study}</dd>
+          <dt data-hide>Study</dt>
+          <dd data-hide {...edit('text', 'site:study')}>{site.study}</dd>
         </dl>
       </div>
       <div class="list links">
-        <a class="solid" href="/resume.pdf">Resume (PDF)<span aria-hidden="true">↓</span></a>
-        <a href={`mailto:${site.email}`} {...edit('href', 'site:email')}>{site.email}<span aria-hidden="true">→</span></a>
-        <a href={site.github} {...edit('href', 'site:github')}>GitHub<span aria-hidden="true">→</span></a>
-        <a href={site.linkedin} {...edit('href', 'site:linkedin')}>LinkedIn<span aria-hidden="true">→</span></a>
+        <a class="solid" href="/resume.pdf" data-hide>Resume (PDF)<span aria-hidden="true">↓</span></a>
+        <a href={`mailto:${site.email}`} data-hide {...edit('href', 'site:email')}>{site.email}<span aria-hidden="true">→</span></a>
+        <a href={site.github} data-hide {...edit('href', 'site:github')}>GitHub<span aria-hidden="true">→</span></a>
+        <a href={site.linkedin} data-hide {...edit('href', 'site:linkedin')}>LinkedIn<span aria-hidden="true">→</span></a>
       </div>
     </div>
-    <Heatmap />
+    <section class="eye no-print" aria-hidden="true">
+      <div class="bay"></div>
+      <div class="dock" data-hide>
+        <div class="count"><small>Shipped this visit</small><b>000</b></div>
+        <ol class="log"></ol>
+      </div>
+    </section>
   </main>
+  <AgentLayer />
 </Base>
 
 <style>
@@ -131,13 +150,172 @@ import { edit, site } from '../lib/content';
     grid-column: 1 / -1;
   }
 
-  .home :global(.heatmap) {
+  .eye {
     grid-column: 5 / 13;
     margin-left: var(--gap);
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    min-height: 0;
   }
 
-  .home :global(.heatmap .legend) {
-    padding-bottom: 0;
+  .bay {
+    position: relative;
+    min-height: 0;
+  }
+
+  .dock {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    border-top: 1.5px solid var(--rule);
+    padding-top: 10px;
+    min-width: 0;
+  }
+
+  @media (scripting: none) {
+    .dock {
+      visibility: hidden;
+    }
+  }
+
+  .count {
+    display: grid;
+    line-height: 1;
+  }
+
+  .count small {
+    font-size: var(--t-small);
+    color: var(--ink-2);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .count b {
+    font-size: clamp(36px, 5.2svh, 60px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    display: inline-block;
+  }
+
+  .count :global(b.bump) {
+    animation: bump 0.32s cubic-bezier(0.2, 1.6, 0.4, 1);
+  }
+
+  @keyframes bump {
+    from {
+      transform: translateY(-6px);
+      color: var(--acc);
+    }
+  }
+
+  .log {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+    font-size: var(--t-small);
+    min-width: 0;
+    width: min(320px, 60%);
+  }
+
+  .log :global(li) {
+    display: grid;
+    grid-template-columns: 10px 44px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    animation: log-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .log :global(li span:nth-child(3)) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .log :global(.dot) {
+    width: 8px;
+    height: 8px;
+    background: var(--acc);
+  }
+
+  @keyframes log-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  .bay :global(.item) {
+    position: absolute;
+  }
+
+  .bay :global(.item.done) {
+    outline: 1px solid var(--hair);
+    background: var(--bg);
+  }
+
+  .bay :global(.part) {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.16s ease, transform 0.3s cubic-bezier(0.2, 1.5, 0.4, 1);
+  }
+
+  .bay :global(.part.on) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bay :global(.grow) {
+    transform-origin: 50% 100%;
+    transform: scaleY(0);
+  }
+
+  .bay :global(.wide) {
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+  }
+
+  .bay :global(.gate) {
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--bg);
+    border: 1.5px solid var(--ink);
+  }
+
+  .bay :global(.tg-track) {
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    transition: background 0.3s ease, opacity 0.16s ease, transform 0.3s ease;
+  }
+
+  .bay :global(.tg-track.lit) {
+    background: var(--acc);
+    border-color: var(--acc);
+  }
+
+  .bay :global(.tg-knob) {
+    border-radius: 50%;
+    background: var(--ink);
+    transition: left 0.3s cubic-bezier(0.2, 1.4, 0.4, 1), opacity 0.16s ease, transform 0.3s ease;
+  }
+
+  .bay :global(svg.spark) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .bay :global(.lbl) {
+    font-size: 11px;
+    color: var(--ink-2);
+    white-space: nowrap;
   }
 
   @media (max-width: 900px) {
@@ -156,20 +334,10 @@ import { edit, site } from '../lib/content';
       padding: 8px 0 20px;
     }
 
-    .home :global(.heatmap) {
+    .eye {
       order: 1;
-      padding-top: 80vw;
+      height: 90vw;
       margin: 0;
-    }
-
-    .home :global(.heatmap .legend) {
-      position: static;
-      padding: 12px 0 0;
-    }
-
-    .home :global(.heatmap .field) {
-      bottom: auto;
-      height: 80vw;
     }
 
     .statement,

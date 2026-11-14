@@ -1,0 +1,153 @@
+---
+import data from '../lib/name-glyphs.json';
+import { site } from '../lib/content';
+
+const glyphs = {
+  upm: data.upm,
+  cap: data.cap,
+  x: data.x,
+  glyphs: Object.fromEntries([...new Set(site.name)].filter((c) => c in data.glyphs).map((c) => [c, data.glyphs[c as keyof typeof data.glyphs]])),
+};
+---
+
+<div class="agents no-print" id="agents" aria-hidden="true" data-glyphs={JSON.stringify(glyphs)}>
+  <svg class="ov">
+    <defs>
+      <filter id="pencil" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7"></feTurbulence>
+        <feDisplacementMap in="SourceGraphic" scale="2.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+      </filter>
+    </defs>
+    <g class="wires"></g>
+  </svg>
+  <div class="crowd"></div>
+</div>
+
+<script>
+  import { startAgents } from '../lib/agents.js';
+
+  const root = document.getElementById('agents');
+  if (root) {
+    const html = document.documentElement;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.fonts.ready.then(() =>
+      startAgents({ root, glyphs: JSON.parse(root.dataset.glyphs!), animate: html.dataset.build === 'pending', still }),
+    );
+  }
+</script>
+
+<style is:global>
+  body:has(> .agents) {
+    position: relative;
+  }
+
+  html[data-build] [data-hide]:not(.in) {
+    opacity: 0;
+  }
+
+  html[data-build] nav:not(:has(a[aria-current].in)) .mark {
+    opacity: 0;
+  }
+
+  .pop {
+    animation: agent-pop 0.34s cubic-bezier(0.2, 1.5, 0.4, 1);
+  }
+
+  @keyframes agent-pop {
+    from {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+  }
+
+  .agents {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .agents .ov {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .agents .ov .fade {
+    transition: opacity 0.7s ease;
+    opacity: 0;
+  }
+
+  .agents .ov .guide {
+    stroke: var(--c);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+  }
+
+  .agents .ov .tick {
+    stroke: var(--c);
+    stroke-width: 1.25;
+  }
+
+  .agents .ov .box {
+    fill: none;
+    stroke: var(--c);
+    stroke-width: 1;
+    stroke-dasharray: 4 3;
+  }
+
+  .agents .ov .pen {
+    fill: none;
+    stroke: var(--c);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .agents .ov .ink {
+    fill: var(--ink);
+  }
+
+  .agents .ov .spec {
+    fill: var(--c);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .agents .crowd {
+    position: absolute;
+    inset: 0;
+  }
+
+  .agents .agent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
+    transition: opacity 0.4s ease;
+  }
+
+  .agents .agent svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    overflow: visible;
+    transition: transform 0.12s ease;
+    transform-origin: 2px 2px;
+    filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.25));
+  }
+
+  .agents .agent.down svg {
+    transform: scale(0.82);
+  }
+
+  .agents .ring {
+    position: absolute;
+    outline: 1.5px solid var(--c);
+    outline-offset: 3px;
+    transition: opacity 0.5s ease;
+  }
+</style>

@@ -1,21 +1,5 @@
 [
   {
-    "id": "quantum",
-    "title": "Quantum Ancilla Optimizer",
-    "blurb": "Compiles arbitrary boolean expressions into Grover oracles by walking the AST. Then, solves the Reversible Pebble Game using the Z3 Solver to minimizes ancilla qubit count.",
-    "stack": "Python · Qiskit · Z3",
-    "links": [
-      {
-        "label": "Write-up",
-        "href": ""
-      }
-    ],
-    "media": {
-      "kind": "demo",
-      "demo": "quantum"
-    }
-  },
-  {
     "id": "herd",
     "title": "herd",
     "blurb": "Routes coding subagents across Claude, Codex and Cursor by tier and live quota, each in its own git worktree. A rate-limited task fails over to another provider in the same worktree.",
@@ -56,6 +40,34 @@
       "src": "/media/midbossmayhem-demo.mp4",
       "alt": "",
       "poster": "/media/midbossmayhem-demo-poster.jpg"
+    }
+  },
+  {
+    "id": "jobwatcher",
+    "title": "JobWatcher",
+    "blurb": "Agent-oriented customizable job posting and application tracking. This demo shows the dashboard feature.",
+    "stack": "Python, SQLite,",
+    "links": [],
+    "media": {
+      "kind": "video",
+      "src": "/media/jobwatcher-comet-2026-11-14-00-16-46-mwfyj5xh.mp4",
+      "alt": ""
+    }
+  },
+  {
+    "id": "quantum",
+    "title": "Quantum Ancilla Optimizer",
+    "blurb": "Compiles arbitrary boolean expressions into Grover oracles by walking the AST. Then, solves the Reversible Pebble Game using the Z3 Solver to minimizes ancilla qubit count.",
+    "stack": "Python · Qiskit · Z3",
+    "links": [
+      {
+        "label": "Write-up",
+        "href": ""
+      }
+    ],
+    "media": {
+      "kind": "demo",
+      "demo": "quantum"
     }
   },
   {
